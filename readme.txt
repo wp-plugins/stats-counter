@@ -3,7 +3,7 @@ Plugin Name: Stats Counter
 Version: 1.0
 Donate link: http://www.wpadm.com/donate
 URI: http://www.wpadm.com/stats-counter
-Tags: Stats Counter, analytics, hidden counter, visitors, hits, unique users, count, design counter, password protected counter,
+Tags: Stats Counter, analytics, hidden counter, visitors, hits, unique users, count, design counter, password protected counter, widget, widgets, admin, image, images, Post, plugin, posts, sidebar, google, page, comments, shortcode
 Requires at least: 4.0.0
 Tested up to: 4.1.1
 Stable tag: trunk
