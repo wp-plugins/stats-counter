@@ -85,7 +85,7 @@ if (!class_exists('WPAdm_Core')) {
             $method = mb_strtolower($method);
             //            $class_file = dirname(__FILE__) . "/methods/class-wpadm-method-" . str_replace('_', '-', $method) . ".php";
 
-            $class_file = dirname(dirname(__FILE__)) . '/wpadm_' . $this->plugin . "/methods/class-wpadm-method-" . str_replace('_', '-', $method) . ".php";
+            $class_file = dirname(__FILE__) . "/methods/class-wpadm-method-" . str_replace('_', '-', $method) . ".php";
             if (file_exists($class_file)) {
                 require_once $class_file;
                 $tmp = explode('_', str_replace('-', '_', $method));
