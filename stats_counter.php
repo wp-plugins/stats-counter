@@ -22,13 +22,10 @@ add_action('admin_print_styles', array('wpadm_wp_stat',"adding_files_style") );
 add_action('admin_print_scripts', array('wpadm_wp_stat', "adding_files_script") );
 add_action('admin_menu', array('wpadm_wp_stat', 'draw_menu'));
 
-
-
 register_activation_hook( __FILE__, array('wpadm_wp_stat','on_activate'));
 register_deactivation_hook( __FILE__, array('wpadm_wp_stat','on_deactivate'));
 add_action('widgets_init', array('wpadm_wp_stat', 'widgets_initial') );
 add_action('init', array('wpadm_wp_stat', 'initWidget'));
-//add_filter( 'the_content', 'wpadm_add_my_js' );
 add_filter('plugin_action_links', array('wpadm_wp_stat', 'manage_link'), 10, 2);
 if (!function_exists('wpadm_debug')) {
     function wpadm_debug($msg)
@@ -44,16 +41,6 @@ if (!function_exists('wpadm_stat_run')) {
     {
         require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . 'wpadm.php';
         wpadm_run('stat');
-
-        // collect statistics here
-        /*   require_once dirname(__FILE__) . '/methods/class-wpadm-method-stat.php';
-        if (isset($_GET['wpadm_i_s'])) {
-        header('location:' . plugins_url( 'wpadm_stat/img/spacer.gif' ));
-        WPAdm_Method_Stat::save_img_info_from_server();
-        exit;
-        } else {
-        //WPAdm_Method_Stat::save_from_server($_SERVER);
-        }     */
     }
 }
 
