@@ -33,7 +33,7 @@
             protected static $class = ""; 
             protected static $title = ""; 
             public static $plugin_name = ""; 
-            protected static $plugins = array('wpadm_stats' => '0.1',
+            protected static $plugins = array('stats_counter' => '1.0',
             'wpadm_full_backup_storage' => '0.1',  
             'wpadm_full_backup_s3' => '0.1',  
             'wpadm_full_backup_ftp' => '0.1',  
@@ -47,7 +47,7 @@
             'wpadm_db_backup_dropbox' => '0.1',  
             'wpadm_file_backup_storage' => '0.1',
             ); 
-            const MIN_PASSWORD = 6; 
+            const MIN_PASSWORD = 5; 
             static function delete_pub_key() 
             {
                 delete_option('wpadm_pub_key');   
@@ -111,7 +111,13 @@
                 return $msg;
             }
 
-
+            /** 
+            * send data to server 
+            * 
+            * @param array $postdata
+            * @param boolean $stat
+            * @return mixed
+            */
             public static function sendToServer($postdata = array(), $stat = false)
             {
                 if (count($postdata) > 0) {
