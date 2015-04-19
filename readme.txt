@@ -3,7 +3,7 @@ Plugin Name: Stats Counter
 Version: 1.0
 Donate link: http://www.wpadm.com/donate
 URI: http://www.wpadm.com/stats-counter
-Tags: Stats Counter, analytics, hidden counter, visitors, hits, unique users, count, design counter, password protected counter, widget, widgets, admin, image, images, Post, plugin, posts, sidebar, google, page, comments, shortcode
+Tags: Stats, Stats, Stat, Counter, analytics, bbpress, analytic, hidden, hidden counter, visitor, visitors, hit, buddypress, hits, count, widget, admin, image, images, Post, plugin, posts, sidebar, google, page, comments, shortcode, twitter
 Requires at least: 4.0.0
 Tested up to: 4.1.1
 Stable tag: trunk
@@ -12,7 +12,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Author: WPAdm.com
 Contributors: WPAdm.com
 
-Stats Counter Plugin analyse statistics on your webpage, unique users, countries, city, IP. 
+Stats Counter Plugin analyse statistics on your web page, unique users, countries, city's, IPs. 
 
 == Description ==
 
@@ -26,9 +26,8 @@ The Stats Counter track:
 * Landing page
 * Return Visitors 
 * Browser Brand
-* IP
+* IPv4
 * IPv6
-
 
 
 If you need help with the plugin or you want to report a bug please refer to http://www.wpadm.com/support/
