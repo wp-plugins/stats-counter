@@ -54,9 +54,7 @@ if (!class_exists('WPAdm_Method_Queue_Controller')) {
                 $this->log("queue-file not exists: {$this->queue_file}");
                 exit;
             }
-            //WPAdm_Core::log('Открываем файл очереди ' . $this->queue_file);
             $queue = unserialize(file_get_contents($this->queue_file));
-            //WPAdm_Core::log(print_r($queue, true));
             $this->id = $queue['id'];
             $this->step = (isset($queue['step']) && (int)$queue['step'] > 1) ? (int)$queue['step']+1 : 1;
             $this->contexts = $queue['contexts'];
