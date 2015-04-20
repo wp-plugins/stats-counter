@@ -6,10 +6,7 @@
 
 if ( ! function_exists( 'wpadm_run' )) {
     function  wpadm_run($pl) {
-        //define('WPADM_PLUGIN', $pl);
-        
         @set_time_limit(0);
-        //require_once('errorHandler.php'); // debug
         require_once dirname(__FILE__) . '/class-wpadm-method-class.php';
         $request_name = 'wpadm_'.$pl.'_request';
         if( isset( $_POST[$request_name] ) && ! empty ( $_POST[$request_name] ) ) {

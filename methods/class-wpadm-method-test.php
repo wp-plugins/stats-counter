@@ -4,8 +4,6 @@ if (!class_exists('WPAdm_Method_Test')) {
     class WPAdm_Method_Test extends WPAdm_Method_Class {
         public function getResult()
         {
-    //        $this->result->setResult(WPAdm_Result::WPADM_RESULT_SUCCESS);
-    //        $this->result->setData($guid);
             if(isset($this->params['test'])) {
                 if ($this->params['test'] == 'keys') {
                     $this->testKeys($this->params);
