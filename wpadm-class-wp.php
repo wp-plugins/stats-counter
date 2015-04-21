@@ -18,6 +18,12 @@
 
             static private $file_hash = "";
 
+            /**
+            * add link to plugins panel
+            * 
+            * @param array $links
+            * @param string $file
+            */
             public static function manage_link($links, $file)
             {
                 if (strpos($file, self::getPathPlugin()) !== false) {
