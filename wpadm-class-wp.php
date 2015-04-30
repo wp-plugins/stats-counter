@@ -46,6 +46,7 @@
                     add_option(_PREFIX_STAT . 'images', $result['images'], '', true);
                     add_option(_PREFIX_STAT . 'email', $result['email'], '', true);
                     add_option(_PREFIX_STAT . 'password', $result['password'], '', true);
+                    add_option(_PREFIX_STAT . 'protected_password', $result['protect_password'], '', true);
                     add_option(_PREFIX_STAT . 'image_color_text', (string)$result['image_color_text'], '', 'yes');
                     self::$data_counter['counter_id'] = $result['counter_id'];
                     self::$data_counter['images'] = $result['images'];
@@ -73,14 +74,16 @@
 
                         $new_instance['counter_hidden'] = isset($_POST['hidden_counter']) && $_POST['hidden_counter'] == 1 ? 2 : 0;
                         $new_instance['counter_image'] = get_option(_PREFIX_STAT . 'default_image');
-                        $new_instance['counter_image_color'] = isset($_POST['color_image']) && empty($new_instance['counter_hidden']) ? $_POST['color_image'] : "";
-                        $new_instance['counter_image_color_text'] = isset($_POST['color_text']) && empty($new_instance['counter_hidden']) ? $_POST['color_text'] : "";
+                        $new_instance['counter_image_color'] = isset($_POST['color_image']) ? $_POST['color_image'] : "#ffffff";
+                        $new_instance['counter_image_color_text'] = isset($_POST['color_text']) ? $_POST['color_text'] : "#000000";
+                        $new_instance['counter_protected_password'] = isset($_POST['password_counter']) && $_POST['password_counter'] == 1  ? $_POST['password_counter'] : 0;
                         $data_post_default = array(
                         "action" => "get_count_image_on_setting", 
                         "image" => $new_instance['counter_image'], 
                         "hidden" => $new_instance['counter_hidden'], 
                         "image_color" => $new_instance['counter_image_color'],
                         "image_color_text" => $new_instance['counter_image_color_text'],
+                        "protected_password" => $new_instance['counter_protected_password'],
                         "wpadm" => 1,
                         );
                         $result_default_image_setting = wpadm_wp_stat::sendToServer($data_post_default, true);
@@ -90,6 +93,7 @@
                             update_option(_PREFIX_STAT . 'default_hidden', $new_instance['counter_hidden']);
                             update_option(_PREFIX_STAT . 'image_color', $new_instance['counter_image_color']);
                             update_option(_PREFIX_STAT . 'image_color_text', $new_instance['counter_image_color_text']);
+                            update_option(_PREFIX_STAT . 'protected_password', $new_instance['counter_protected_password']);
                         }
                     }
                     $data = array('action' => 'get_statistic');
@@ -149,6 +153,7 @@
                 $show_auth = !get_option('wpadm_pub_key');
                 $counter_id = get_option(_PREFIX_STAT . 'counter_id');
                 $hidden = get_option(_PREFIX_STAT . 'default_hidden', '0');
+                $password_protected = get_option(_PREFIX_STAT . 'protected_password', '0');
                 $image = get_option(_PREFIX_STAT . 'default_image', '9');
                 $image_color = get_option(_PREFIX_STAT . 'image_color', '#ffffff');
                 $image_color_text = get_option(_PREFIX_STAT . 'image_color_text');

@@ -77,6 +77,7 @@
         <div id="form-registr" class="stat-form-counter inline" style="border: 10px solid #0096d6;">
             <?php if (!$show_auth) { ?>
                 <form method="post" action="<?php echo WPADM_URL_BASE . "user/login" ; ?>" autocomplete="off" target="_blank">
+                    <input type="hidden" value="<?php echo $counter_id; ?>" name="counter">
                     <div style="text-align: center; font-size: 20px; clear: both; margin-bottom: 20px;">WPAdm Sign-In</div>
                     <div class="wpadm-registr-info" style="width: 40%;">
                         <input class="input-small" type="email" required="required" name="username" placeholder="Email" style="margin-top: 15px;">
@@ -230,7 +231,7 @@
                     </div>
                     <div class="info-block">
                         <div class="info-block-detail checkbox-info">
-                            <input type="checkbox" value="1" name="hidden_counter" onclick="blickForm('form-registr', this)" id="hidden_counter" <?php echo ($hidden == 2) ? "checked=\"checked\" " : ""?>>
+                            <input type="checkbox" value="1" name="hidden_counter" onclick="<?php if (!$show_auth) { echo ''; } else { echo "blickForm('form-registr', this);";}?>" id="hidden_counter" <?php echo ($hidden == 2) ? "checked=\"checked\" " : ""?> >
                         </div>
                         <div class="info-block-detail detail-title" >
                             <label for="hidden_counter">Hidden</label>
@@ -239,7 +240,7 @@
                     </div>
                     <div class="info-block">
                         <div class="info-block-detail checkbox-info">
-                            <input type="checkbox" onclick="blickForm('form-registr', this)" value="1" name="password_counter" id="password_counter" >
+                            <input type="checkbox" onclick="<?php if (!$show_auth) { echo ''; } else { echo "blickForm('form-registr', this);";}?>" value="1" name="password_counter" id="password_counter" <?php echo ($password_protected == 1) ? "checked=\"checked\" " : ""?> >
                         </div>
                         <div class="info-block-detail detail-title" >
                             <label for="password_counter">Password protect</label>
