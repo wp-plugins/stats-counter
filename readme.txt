@@ -1,6 +1,6 @@
 === Stats Counter ===
 Plugin Name: Stats Counter
-Version: 1.0
+Version: 1.1
 Donate link: http://www.wpadm.com/donate
 URI: http://www.wpadm.com/stats-counter
 Tags: Stats, Stats, Stat, Counter, analytics, bbpress, analytic, hidden, hidden counter, visitor, visitors, hit, buddypress, hits, count, widget, admin, image, images, Post, plugin, posts, sidebar, google, page, comments, shortcode, twitter

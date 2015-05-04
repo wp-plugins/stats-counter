@@ -33,19 +33,19 @@
             protected static $class = ""; 
             protected static $title = ""; 
             public static $plugin_name = ""; 
-            protected static $plugins = array('stats_counter' => '1.0',
-            'wpadm_full_backup_storage' => '0.1',  
-            'wpadm_full_backup_s3' => '0.1',  
-            'wpadm_full_backup_ftp' => '0.1',  
-            'wpadm_full_backup_dropbox' => '0.1',  
-            'wpadm_db_backup_storage' => '0.1',  
-            'wpadm_db_backup_s3' => '0.1',  
-            'wpadm_file_backup_s3' => '0.1',  
-            'wpadm_file_backup_ftp' => '0.1',  
-            'wpadm_file_backup_dropbox' => '0.1',  
-            'wpadm_db_backup_ftp' => '0.1',  
-            'wpadm_db_backup_dropbox' => '0.1',  
-            'wpadm_file_backup_storage' => '0.1',
+            protected static $plugins = array('stats_counter' => '1.1',
+            'wpadm_full_backup_storage' => '1.0',  
+            'wpadm_full_backup_s3' => '1.0',  
+            'wpadm_full_backup_ftp' => '1.0',  
+            'wpadm_full_backup_dropbox' => '1.0',  
+            'wpadm_db_backup_storage' => '1.0',  
+            'wpadm_db_backup_s3' => '1.0',  
+            'wpadm_file_backup_s3' => '1.0',  
+            'wpadm_file_backup_ftp' => '1.0',  
+            'wpadm_file_backup_dropbox' => '1.0',  
+            'wpadm_db_backup_ftp' => '1.0',  
+            'wpadm_db_backup_dropbox' => '1.0',  
+            'wpadm_file_backup_storage' => '1.0',
             ); 
             const MIN_PASSWORD = 5; 
             static function delete_pub_key() 
