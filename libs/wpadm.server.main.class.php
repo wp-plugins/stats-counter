@@ -33,7 +33,7 @@
             protected static $class = ""; 
             protected static $title = ""; 
             public static $plugin_name = ""; 
-            protected static $plugins = array('stats_counter' => '1.0',
+            protected static $plugins = array('stats_counter' => '1.1',
             'wpadm_full_backup_storage' => '1.0',  
             'wpadm_full_backup_s3' => '1.0',  
             'wpadm_full_backup_ftp' => '1.0',  
@@ -112,7 +112,7 @@
             }
 
             /** 
-            * send data to server 
+            * send data to server  
             * 
             * @param array $postdata
             * @param boolean $stat
@@ -192,7 +192,10 @@
                     }  
                 }
             }
-
+            /**
+            * activate plugin
+            * 
+            */
             public static function activatePlugin()
             {
                 if (isset($_POST['email']) && isset($_POST['password']) && isset($_POST['password-confirm'])) {
@@ -241,7 +244,10 @@
                     header("Location: " . admin_url("admin.php?page=wpadm_plugins"));
                 }
             }
-
+            /**
+            * add scrtips for wp-admin. 
+            * 
+            */
             public static function include_admins_script()
             {
                 wp_enqueue_style('css-admin-wpadm-db', plugins_url( "/template/css/admin-style-wpadm.css", dirname(__FILE__) ) );
@@ -250,6 +256,12 @@
                 wp_enqueue_script( 'postbox' );
 
             }
+            /**
+            * check plugin for menu
+            * 
+            * @param string $name
+            * @param boolean $version 
+            */
             public static function check_plugin($name = "", $version = false)
             {
                 if (!empty($name)) {
@@ -275,6 +287,10 @@
     }
 
     if (! function_exists('wpadm_plugins')) {
+        /**
+        * show min requirements
+        * 
+        */
         function wpadm_plugins()
         {
             global $wp_version;
@@ -459,6 +475,13 @@
     }
 
     if (! function_exists('check_function')) {
+        /**
+        * sheck function
+        * 
+        * @param string $func
+        * @param string $search
+        * @param boolean $type
+        */
         function check_function($func, $search, $type = false)
         {
             if (is_string($func)) {
@@ -479,6 +502,13 @@
     }
 
     if (! function_exists('check_version')) {
+        /**
+        * check version
+        * 
+        * @param string $ver
+        * @param string $ver2
+        * @return boolean
+        */
         function check_version($ver, $ver2)
         {
             return version_compare($ver, $ver2, ">");
