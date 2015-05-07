@@ -29,23 +29,33 @@ if (!class_exists('WPAdm_Core')) {
 
         private $plugin;
 
+        public static $pl_dir;
 
-        public function __construct(array $request, $plugin = '') {
+
+        public function __construct(array $request, $plugin = '', $plugin_dir = '') {
             $this->result = new WPAdm_Result();
             $this->result->setResult(WPAdm_Result::WPADM_RESULT_ERROR);
             $this->request = $request;
             $this->plugin = $plugin;
-
+            self::$pl_dir = $plugin_dir;
             // авторизация запроса
             if (!$this->auth()) {
                 return;
             };                          
             if ('connect' == $request['method']) {
                 $this->connect();
+            } elseif ('local' == $request['method']){
+
             } elseif($obj = $this->getObject($request['method'], $request['params'])) {
+                if (isset($obj->name)) {
+                    $this->name = $obj->name;
+                }
+                if (isset($obj->time)) {
+                    $this->time = $obj->time;
+                }
                 $this->result = $obj->getResult();
             } else {
-                $this->result->setError('Неизветный метод "' . $request['method'] . '"');
+                $this->result->setError('Unknown method "' . $request['method'] . '"');
             }
         }
 
@@ -55,9 +65,11 @@ if (!class_exists('WPAdm_Core')) {
         * @return string
         */
         static public function getTmpDir() {
-            $tmp_dir = dirname(__FILE__) . '/tmp';
+            $tmp_dir = self::$pl_dir . '/tmp';
             self::mkdir($tmp_dir);
-            file_put_contents($tmp_dir . '/index.php', '');
+            if (!file_exists($tmp_dir . '/index.php')) {
+                file_put_contents($tmp_dir . '/index.php', '');
+            }
             return $tmp_dir;
         }
 
@@ -66,11 +78,8 @@ if (!class_exists('WPAdm_Core')) {
         * @return string
         */
         static public function getPluginDir() {
-            return dirname(__FILE__);
+            return self::$pl_dir;
         }
-
-
-
 
         /**
         * @param string $method
@@ -83,9 +92,9 @@ if (!class_exists('WPAdm_Core')) {
                 return null;
             }
             $method = mb_strtolower($method);
-            //            $class_file = dirname(__FILE__) . "/methods/class-wpadm-method-" . str_replace('_', '-', $method) . ".php";
 
-            $class_file = dirname(__FILE__) . "/methods/class-wpadm-method-" . str_replace('_', '-', $method) . ".php";
+            $class_file = self::$pl_dir . "/methods/class-wpadm-method-" . str_replace('_', '-', $method) . ".php";
+
             if (file_exists($class_file)) {
                 require_once $class_file;
                 $tmp = explode('_', str_replace('-', '_', $method));
@@ -104,36 +113,35 @@ if (!class_exists('WPAdm_Core')) {
             }
             // если метод не потдерживается, то возвращаем Null
             return null;
-            //        switch($method) {
-            //            case 'stat':
-            //                return new WPAdm_Method_Stat($params);
-            //            case 'exec':
-            //                require_once dirname(__FILE__) . '/class-wpadm-method-exec.php';
-            //                return new WPAdm_Method_Exec($params);
-            //            case 'posting':
-            //                require_once dirname(__FILE__) . '/class-wpadm-method-posting.php';
-            //                return new WPAdm_Method_Posting($params);
-            //            default:
-            //                // если метод не потдерживается, то возвращаем Null
-            //                return null;
-            //        }
+
         }
 
-
-
+        public static function getLog()
+        {
+            $file_log = self::getTmpDir() . '/log.log';
+            if (file_exists($file_log)) {
+                return @file_get_contents($file_log);
+            }
+            return "";
+        }
 
         private function connect() {
             add_option('wpadm_pub_key', $this->pub_key);
             $this->result->setResult(WPAdm_Result::WPADM_RESULT_SUCCESS);
         }
-
-
+        public static function setPluginDIr($dir)
+        {
+            self::$pl_dir = $dir;
+        }
 
         /*
         * Авторизация запроса
         */
         private function auth() {
             $this->pub_key = get_option('wpadm_pub_key');
+            if ('local_backup' == $this->request['method'] || 'local_restore' == $this->request['method'] || 'queue_controller' == $this->request['method'] || 'local' == $this->request['method']) {
+                return true;
+            }
             if (empty($this->pub_key)) {
                 if ('connect' == $this->request['method']) {
                     $this->pub_key = $this->request['params']['pub_key'];
@@ -149,7 +157,8 @@ if (!class_exists('WPAdm_Core')) {
             } elseif('queue_controller' == $this->request['method']) {
                 //todo: проверить, что запустили сами себя
                 return true;
-            }
+
+            } 
 
             $sign = md5(serialize($this->request['params']));
             //openssl_public_decrypt($this->request['sign'], $request_sign, $this->pub_key);
@@ -170,7 +179,7 @@ if (!class_exists('WPAdm_Core')) {
         */
         static public function mkdir($dir) {
             if(!file_exists($dir)) {
-                mkdir($dir);
+                mkdir($dir, 0755);
                 //todo: права доступа
                 file_put_contents($dir . '/index.php', '');
             }
@@ -210,7 +219,7 @@ if (!class_exists('WPAdm_Core')) {
 
 
         static public function log($txt, $class='') {
-            $log_file = WPAdm_Core::getTmpDir() . '/log.log';
+            $log_file = self::getTmpDir() . '/log.log';
             file_put_contents($log_file, date("Y-m-d H:i:s") ."\t{$class}\t{$txt}\n", FILE_APPEND);
         }
 
@@ -219,17 +228,19 @@ if (!class_exists('WPAdm_Core')) {
         * @param $dir
         */
         static function rmdir($dir) {
-            $files = glob($dir. '/*');
-            foreach($files as $f) {
-                if ($f == '..' or $f == '.') {
-                    continue;
+            if (is_dir($dir)) {
+                $files = glob($dir. '/*');
+                foreach($files as $f) {
+                    if ($f == '..' or $f == '.') {
+                        continue;
+                    }
+                    if (is_dir($f)) {
+                        self::rmdir($f);
+                    }
+                    unlink($f);
                 }
-                if (is_dir($f)) {
-                    self::rmdir($f);
-                }
-                unlink($f);
+                rmdir($dir);
             }
-            rmdir($dir);
         }
     }
 }

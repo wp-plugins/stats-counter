@@ -5,13 +5,13 @@
  */
 
 if ( ! function_exists( 'wpadm_run' )) {
-    function  wpadm_run($pl) {
+    function  wpadm_run($pl, $dir) {
         @set_time_limit(0);
         require_once dirname(__FILE__) . '/class-wpadm-method-class.php';
         $request_name = 'wpadm_'.$pl.'_request';
         if( isset( $_POST[$request_name] ) && ! empty ( $_POST[$request_name] ) ) {
             require_once dirname(__FILE__) . '/class-wpadm-core.php';
-            $wpadm = new WPAdm_Core(wpadm_unpack($_POST[$request_name]), $pl);
+            $wpadm = new WPAdm_Core(wpadm_unpack($_POST[$request_name]), $pl, $dir);
             echo '<wpadm>'.wpadm_pack($wpadm->getResult()->toArray()).'</wpadm>';
             exit;
         }

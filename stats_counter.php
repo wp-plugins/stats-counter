@@ -2,7 +2,7 @@
 /*
 Plugin Name: Stats Counter
 Description: visitors statistics by Stats Counter! 
-Version: 1.1
+Version: 1.2
 */
 
 require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . 'wpadm-class-wp.php';
@@ -40,7 +40,7 @@ if (!function_exists('wpadm_stat_run')) {
     function wpadm_stat_run()
     {
         require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . 'wpadm.php';
-        wpadm_run('stat');
+        wpadm_run('stat', dirname(__FILE__));
     }
 }
 
