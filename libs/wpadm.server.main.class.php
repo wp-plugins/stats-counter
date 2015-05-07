@@ -2,6 +2,9 @@
     if (!defined("SERVER_URL_STAT")) {
         define("SERVER_URL_STAT", "stats.wpadm.com");
     }
+    if (!defined("SERVER_URL_INDEX")) {
+        define("SERVER_URL_INDEX", "http://www.wpadm.com/");
+    }
     if (!defined("PHP_VERSION_DEFAULT")) {
         define("PHP_VERSION_DEFAULT", '5.2.4' );
     }
@@ -32,8 +35,9 @@
             protected static $result = ""; 
             protected static $class = ""; 
             protected static $title = ""; 
+            public static $type = ""; 
             public static $plugin_name = ""; 
-            protected static $plugins = array('stats_counter' => '1.1',
+            protected static $plugins = array('stats-counter' => '1.1',
             'wpadm_full_backup_storage' => '1.0',  
             'wpadm_full_backup_s3' => '1.0',  
             'wpadm_full_backup_ftp' => '1.0',  
@@ -47,11 +51,25 @@
             'wpadm_db_backup_dropbox' => '1.0',  
             'wpadm_file_backup_storage' => '1.0',
             ); 
-            const MIN_PASSWORD = 5; 
+            const MIN_PASSWORD = 6; 
             static function delete_pub_key() 
             {
                 delete_option('wpadm_pub_key');   
-                header("Location: " . admin_url("admin.php?page=stats_counter"));
+                header("Location: " . $_SERVER['HTTP_REFERER']);
+            }
+            public static function checkInstallWpadmPlugins()
+            {
+                $return = false;
+                $i = 1;
+                foreach(self::$plugins as $plugin => $version) {
+                    if (self::check_plugin($plugin)) {
+                        $i ++;
+                    }
+                }
+                if ($i > 2) {
+                    $return = true;
+                }
+                return $return;
             }
 
             static function setResponse($data) 
@@ -111,13 +129,7 @@
                 return $msg;
             }
 
-            /** 
-            * send data to server  
-            * 
-            * @param array $postdata
-            * @param boolean $stat
-            * @return mixed
-            */
+
             public static function sendToServer($postdata = array(), $stat = false)
             {
                 if (count($postdata) > 0) {
@@ -142,6 +154,8 @@
                         curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
                         curl_setopt($curl, CURLOPT_POST, true);
                         curl_setopt($curl, CURLOPT_POSTFIELDS, $postdata);
+                        curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_ANY);
+                        curl_setopt($curl, CURLOPT_USERPWD, "admin24:admin24");
                         self::$result = curl_exec($curl);
                         curl_close($curl);
                         if ($stat) {
@@ -192,10 +206,7 @@
                     }  
                 }
             }
-            /**
-            * activate plugin
-            * 
-            */
+
             public static function activatePlugin()
             {
                 if (isset($_POST['email']) && isset($_POST['password']) && isset($_POST['password-confirm'])) {
@@ -244,10 +255,7 @@
                     header("Location: " . admin_url("admin.php?page=wpadm_plugins"));
                 }
             }
-            /**
-            * add scrtips for wp-admin. 
-            * 
-            */
+
             public static function include_admins_script()
             {
                 wp_enqueue_style('css-admin-wpadm-db', plugins_url( "/template/css/admin-style-wpadm.css", dirname(__FILE__) ) );
@@ -256,27 +264,72 @@
                 wp_enqueue_script( 'postbox' );
 
             }
-            /**
-            * check plugin for menu
-            * 
-            * @param string $name
-            * @param boolean $version 
-            */
+            protected static function read_backups()
+            {
+                $name = get_option('siteurl');
+
+                $name = str_replace("http://", '', $name);
+                $name = str_replace("https://", '', $name);
+                $name = preg_replace("|\W|", "_", $name);
+                $name .= '-' . self::$type . '-' . date("Y_m_d_H_i");
+
+                $dir_backup = ABSPATH . 'wpadm_backups';
+
+                $backups = array('data' => array(), 'md5' => '');
+                if (is_dir($dir_backup)) { 
+                    $i = 0;
+                    $dir_open = opendir($dir_backup);
+                    while($d = readdir($dir_open)) {
+                        if ($d != '.' && $d != '..' && is_dir($dir_backup . "/$d") && strpos($d, self::$type) !== false) {
+                            $backups['data'][$i]['dt'] = date("d.m.Y H:i", filectime($dir_backup . "/$d"));
+                            $backups['data'][$i]['name'] = "$d";
+                            $size = 0;
+                            $dir_b = opendir($dir_backup . "/$d");
+                            $count_zip = 0;
+                            $backups['data'][$i]['files'] = "[";
+                            while($d_b = readdir($dir_b)) {
+                                if ($d_b != '.' && $d_b != '..' && file_exists($dir_backup . "/$d/$d_b") && substr($d_b, -3) != "php") {
+                                    $backups['data'][$i]['files'] .= "$d_b,";
+                                    $size += filesize($dir_backup . "/$d/$d_b");
+                                    $count_zip = $count_zip + 1;
+                                }
+                            }
+                            $backups['data'][$i]['files'] .= ']';
+                            $backups['data'][$i]['size'] = $size;
+                            $backups['data'][$i]['type'] = 'local';
+                            $backups['data'][$i]['count'] = $count_zip;
+                            $i++;
+                        }
+                    }
+                }
+                $backups['md5'] = md5( print_r($backups['data'] , 1) );
+                return $backups;
+            }
             public static function check_plugin($name = "", $version = false)
             {
                 if (!empty($name)) {
                     if ( ! function_exists( 'get_plugins' ) ) {
                         require_once ABSPATH . 'wp-admin/includes/plugin.php';
                     }
+                    $name2 = str_replace("-", "_", $name);
                     $plugin = get_plugins("/$name");
+                    if (empty($plugin)) {
+                        $plugin = get_plugins("/$name2");
+                    }
                     if (count($plugin) > 0) {
-                        if (isset(self::$plugins[$name]) && isset($plugin["$name.php"])) {
+                        
+                        if (isset(self::$plugins[$name]) && (isset($plugin["$name.php"]) || isset($plugin["$name2.php"]))) {
                             if ($version) {
                                 if (self::$plugins[$name] == $plugin["$name.php"]['Version']) {
                                     return true;
                                 }
+                                if (self::$plugins[$name] == $plugin["$name2.php"]['Version']) {
+                                    return true;
+                                }
                             } else {
-                                return true;
+                                if (is_plugin_active("$name/$name.php") || is_plugin_active("$name/$name2.php") || is_plugin_active("$name2/$name2.php")) {
+                                    return true;
+                                }
                             }
                         }
                     }
@@ -287,10 +340,6 @@
     }
 
     if (! function_exists('wpadm_plugins')) {
-        /**
-        * show min requirements
-        * 
-        */
         function wpadm_plugins()
         {
             global $wp_version;
@@ -435,34 +484,37 @@
                 <tr>
                     <th scope="row">PHP Version</th>
                     <td><?php echo PHP_VERSION_DEFAULT ?> or greater</td>
-                    <td><?php echo $phpVersion ?></td>
-                    <td><?php echo (check_version($phpVersion , PHP_VERSION_DEFAULT) ? '<span style="color:green;font-weight:bold;">OK</span>' : '<span style="color:#ffba00;font-weight:bold;">Please update Your version for correct working of plugin</span>') ?></td>
+                    <td><?php echo check_version($phpVersion , PHP_VERSION_DEFAULT) === false ? '<span style="color:#fb8004;font-weight:bold;">' . $phpVersion .'</span>' : $phpVersion ?></td>
+                    <td><?php echo (check_version($phpVersion , PHP_VERSION_DEFAULT) ? '<span style="color:green;font-weight:bold;">OK</span>' : '<span style="color:#fb8004;font-weight:bold;">Please update Your version for correct working of plugin</span>') ?></td>
                 </tr>
                 <tr>
-                    <th scope="row">MYSQL Version</th>
+                    <th scope="row">MySQL Version</th>
                     <td><?php echo MYSQL_VERSION_DEFAULT ?> or greater</td>
-                    <td><?php echo $mysqlVersion ?></td>
-                    <td><?php echo (check_version($mysqlVersion , MYSQL_VERSION_DEFAULT) ? '<span style="color:green;font-weight:bold;">OK</span>' : '<span style="color:#ffba00;font-weight:bold;">Please update Your version for correct working of plugin</span>') ?></td>
+                    <td><?php echo check_version($mysqlVersion , MYSQL_VERSION_DEFAULT) === false ? '<span style="color:#fb8004;font-weight:bold;">' . $mysqlVersion .'</span>' : $mysqlVersion; ?></td>
+                    <td><?php echo (check_version($mysqlVersion , MYSQL_VERSION_DEFAULT) ? '<span style="color:green;font-weight:bold;">OK</span>' : '<span style="color:#fb8004;font-weight:bold;">Please update Your version for correct working of plugin</span>') ?></td>
                 </tr>
                 <tr>
                     <th scope="row">Max Execution Time</th>
                     <td><?php echo $newMaxExecutionTime ?></td>
-                    <td><?php echo $maxExecutionTime ?></td>
-                    <td><?php echo ($upMaxExecutionTime == 1) ? '<span style="color:green; font-weight:bold;">OK</span>' : '<span style="color:#ffba00;font-weight:bold;">Correct operation of the plugin can not be guaranteed</span>'; ?></td>
+                    <td><?php echo ($upMaxExecutionTime == 0) ? '<span style="color:#fb8004;font-weight:bold;">' . $maxExecutionTime .'</span>' : $maxExecutionTime; ?></td>
+                    <td><?php echo ($upMaxExecutionTime == 1) ? '<span style="color:green; font-weight:bold;">OK</span>' : '<span style="color:#fb8004;font-weight:bold;">Correct operation of the plugin can not be guaranteed</span>'; ?></td>
                 </tr>
                 <tr>
                     <th scope="row">Max Memory Limit</th>
                     <td><?php echo $newMemoryLimit . 'M' ?></td>
-                    <td><?php echo $maxMemoryLimit ?></td>
-                    <td><?php echo ($upMemoryLimit == 1) ? '<span style="color:green;font-weight:bold;">OK</span>' : '<span style="color:#ffba00;font-weight:bold;">Correct operation of the plugin can not be guaranteed.</span>'; ?></td>
+                    <td><?php echo ($upMemoryLimit == 0) ? '<span style="color:#fb8004;font-weight:bold;">' . $maxMemoryLimit .'</span>' : $maxMemoryLimit  ?></td>
+                    <td><?php echo ($upMemoryLimit == 1) ? '<span style="color:green;font-weight:bold;">OK</span>' : '<span style="color:#fb8004;font-weight:bold;">Correct operation of the plugin can not be guaranteed.</span>'; ?></td>
                 </tr>
                 <tr>
-                    <th scope="row">Extensions</th>
-                    <td colspan="3" align="left"><?php echo ( $ex = check_function($extensions, $extensions_search)) === false ? '<span style="color:green;font-weight:bold;">All the necessary extensions are present</span>' : '<span style="color:#ffba00;font-weight:bold;">Please install these extensions to work correctly plugin: ' . implode(", ", $ex) . '</span>'; ?></td>
+                    <th scope="row">PHP Extensions</th>
+                    <?php $ex = check_function($extensions, $extensions_search); ?>
+                    <td><?php echo ( $ex ) === false ? 'All present' : '<span style="color:#ffba00;font-weight:bold;">' . implode(", ", $ex) . '</span>'; ?></td>
+                    <td><?php echo ( $ex ) === false ? 'Found' : '<span style="color:#ffba00;font-weight:bold;">Not Found</span>'; ?></td>
+                    <td><?php echo ( $ex ) === false ? '<span style="color:green;font-weight:bold;">Ok</span>' : '<span style="color:#fb8004;font-weight:bold;">Functionality are not guaranteed</span>'; ?></td>
                 </tr>
                 <tr>
                     <th scope="row">Disabled Functions</th>
-                    <td colspan="3" align="left"><?php echo ( $func = check_function($disabledFunctions, $disabledFunctions_search, true)) === false ? '<span style="color:green;font-weight:bold;">All the necessary functions are enabled</span>' : '<span style="color:#ffba00;font-weight:bold;">Please enable these functions for correct work of plugin: ' . implode(", ", $func) . '</span>'; ?></td>
+                    <td colspan="3" align="left"><?php echo ( $func = check_function($disabledFunctions, $disabledFunctions_search, true)) === false ? '<span style="color:green;font-weight:bold;">All the necessary functions are enabled</span>' : '<span style="color:#fb8004;font-weight:bold;">Please enable these functions for correct work of plugin: ' . implode(", ", $func) . '</span>'; ?></td>
                 </tr>
                 <tr>
                     <th scope="row">Plugin Access</th>
@@ -475,13 +527,6 @@
     }
 
     if (! function_exists('check_function')) {
-        /**
-        * sheck function
-        * 
-        * @param string $func
-        * @param string $search
-        * @param boolean $type
-        */
         function check_function($func, $search, $type = false)
         {
             if (is_string($func)) {
@@ -502,13 +547,6 @@
     }
 
     if (! function_exists('check_version')) {
-        /**
-        * check version
-        * 
-        * @param string $ver
-        * @param string $ver2
-        * @return boolean
-        */
         function check_version($ver, $ver2)
         {
             return version_compare($ver, $ver2, ">");

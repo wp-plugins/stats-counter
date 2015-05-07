@@ -388,7 +388,7 @@
                     "Stats Counter",
                     "Stats Counter",
                     'read',
-                    'wpadm_plugins',
+                    'stats_counter',
                     array('wpadm_wp_stat', 'wpadm_show_stat')
                     );
                 } else {
@@ -456,53 +456,55 @@
             public static function addWidget($sidebar_id = false)
             {
                 $sidebars_widgets = get_option( 'sidebars_widgets' );
-                if ($sidebar_id === false || empty($sidebar_id)) {
-                    $not_active = array('wp_inactive_widgets', 'array_version');
-                    foreach($sidebars_widgets as $sidebar => $widget) {
-                        if (!in_array($sidebar, $not_active)) {
-                            $id = count( $sidebars_widgets[$sidebar] );
-                            if ($id == 0) {
-                                $id = 2;
+                if ($sidebars_widgets) {
+                    if ($sidebar_id === false || empty($sidebar_id)) {
+                        $not_active = array('wp_inactive_widgets', 'array_version');
+                        foreach($sidebars_widgets as $sidebar => $widget) {
+                            if (!in_array($sidebar, $not_active)) {
+                                $id = count( $sidebars_widgets[$sidebar] );
+                                if ($id == 0) {
+                                    $id = 2;
+                                }
+                                $widget_ = $sidebars_widgets[$sidebar][c-1];
+                                $id_widget = explode("-", $widget_ );
+                                if (!isset($id_widget[1])) {
+                                    $id_widget[1] = 1;
+                                }
+                                if (!in_array("wpadm_counter_widget-" . $id_widget[1], $sidebars_widgets[$sidebar])) {
+                                    $sidebars_widgets[$sidebar] = array_merge($sidebars_widgets[$sidebar] , array( "wpadm_counter_widget-" . $id_widget[1] ));
+                                    $ops = get_option( 'widget_wpadm_counter_widget' );
+                                    $ops[$id_widget[1]] = array(
+                                    'title' => 'WPADM Counter',
+                                    );
+                                    update_option( 'widget_wpadm_counter_widget', $ops ); 
+                                    update_option( 'sidebars_widgets', $sidebars_widgets );
+                                    break;
+                                }
                             }
-                            $widget_ = $sidebars_widgets[$sidebar][c-1];
+                        }
+                    } else {
+                        if (isset($sidebars_widgets[$sidebar_id])) {
+                            $id = count( $sidebars_widgets[$sidebar_id] ); 
+                            $widget_ = $sidebars_widgets[$sidebar_id][$id-1];
                             $id_widget = explode("-", $widget_ );
                             if (!isset($id_widget[1])) {
                                 $id_widget[1] = 1;
                             }
-                            if (!in_array("wpadm_counter_widget-" . $id_widget[1], $sidebars_widgets[$sidebar])) {
-                                $sidebars_widgets[$sidebar] = array_merge($sidebars_widgets[$sidebar] , array( "wpadm_counter_widget-" . $id_widget[1] ));
+                            if (!in_array("wpadm_counter_widget-" . $id_widget[1], $sidebars_widgets[$sidebar_id])) {
+                                $sidebars_widgets[$sidebar_id] = array_merge($sidebars_widgets[$sidebar_id] , array( "wpadm_counter_widget-" . $id_widget[1] ));
                                 $ops = get_option( 'widget_wpadm_counter_widget' );
                                 $ops[$id_widget[1]] = array(
                                 'title' => 'WPADM Counter',
                                 );
                                 update_option( 'widget_wpadm_counter_widget', $ops ); 
                                 update_option( 'sidebars_widgets', $sidebars_widgets );
-                                break;
-                            }
-                        }
-                    }
-                } else {
-                    if (isset($sidebars_widgets[$sidebar_id])) {
-                        $id = count( $sidebars_widgets[$sidebar_id] ); 
-                        $widget_ = $sidebars_widgets[$sidebar_id][$id-1];
-                        $id_widget = explode("-", $widget_ );
-                        if (!isset($id_widget[1])) {
-                            $id_widget[1] = 1;
-                        }
-                        if (!in_array("wpadm_counter_widget-" . $id_widget[1], $sidebars_widgets[$sidebar_id])) {
-                            $sidebars_widgets[$sidebar_id] = array_merge($sidebars_widgets[$sidebar_id] , array( "wpadm_counter_widget-" . $id_widget[1] ));
-                            $ops = get_option( 'widget_wpadm_counter_widget' );
-                            $ops[$id_widget[1]] = array(
-                            'title' => 'WPADM Counter',
-                            );
-                            update_option( 'widget_wpadm_counter_widget', $ops ); 
-                            update_option( 'sidebars_widgets', $sidebars_widgets );
-                            return "Add widget to $sidebar_id";
+                                return "Add widget to $sidebar_id";
+                            } else {
+                                return 'In this sidebar(' . $sidebar_id . ') widget exist';
+                            } 
                         } else {
-                            return 'In this sidebar(' . $sidebar_id . ') widget exist';
-                        } 
-                    } else {
-                        return 'This is sidebar(' . $sidebar_id . ') not exist';
+                            return 'This is sidebar(' . $sidebar_id . ') not exist';
+                        }
                     }
                 }
                 return false;
@@ -511,17 +513,19 @@
             {
                 $sidebars_widgets = get_option( 'sidebars_widgets' );
                 $check = false;
-                foreach($sidebars_widgets as $key => $sidebar) {
-                    if (is_array($sidebar)) {
-                        foreach($sidebar as $k => $w) {
-                            if (stripos($w, "wpadm_counter_widget") !== false) {
-                                $check = true;
-                                break;
+                if($sidebars_widgets) {
+                    foreach($sidebars_widgets as $key => $sidebar) {
+                        if (is_array($sidebar)) {
+                            foreach($sidebar as $k => $w) {
+                                if (stripos($w, "wpadm_counter_widget") !== false) {
+                                    $check = true;
+                                    break;
+                                }
                             }
                         }
-                    }
-                    if ($check) {
-                        break;
+                        if ($check) {
+                            break;
+                        }
                     }
                 }
                 return $check;
