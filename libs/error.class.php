@@ -18,13 +18,13 @@
 if ( ! class_exists("errorWPADM")) {
     class errorWPADM {
         private static $messages = array(
-        100 => 'Method not Exist.',
-        101 => 'Error in Method.',
-        102 => 'Error in the received data.',
-        103 => 'Error in activate plugin.',
-        201 => 'Registaration and acivate were successful.',
-        202 => 'Successful in activate plugin.',
-        401 => 'Please activate user in <url>.',
+        100 => 'Method doesn\'t exist.',
+        101 => 'Method has an error.',
+        102 => 'Received data has an error.',
+        103 => 'There is an error in plugin activation.',
+        201 => 'Registration and activation was successful.',
+        202 => 'Plugin activation was successful.',
+        401 => 'The User at WPAdm is not activated. Please, activate you User at WPAdm-System in <url> and try again.',
 
         );
         public static function getMessage($code)
@@ -32,7 +32,7 @@ if ( ! class_exists("errorWPADM")) {
             if (isset(self::$messages[$code])) {
                 return self::$messages[$code]; 
             } else {
-                return "Error in Server, received data is invalid.";
+                return "Server error: received data are invalid.";
             }
 
         }
