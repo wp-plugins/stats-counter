@@ -82,6 +82,11 @@
 .moovdiv {
 
 }
+.moovdiv span.title {
+    font-size:18px;
+    text-align: center;
+    line-height: 24px;
+}
 
 .table-stat-moovdiv {
     background: none repeat scroll 0 0 #FFFFFF;
@@ -199,4 +204,8 @@ div.progress_load {
 .last {
     line-height: 18px;
     margin-top: 9px;
+}
+td.last span.desc{
+      font-size:13px;
+      font-style: italic;
 }
