@@ -29,6 +29,9 @@ The Stats Counter track:
 * IPv4
 * IPv6
 
+* Password protected Counter
+* Hidden Counter
+
 
 If you need help with the plugin or you want to report a bug please refer to http://www.wpadm.com/support/
 
