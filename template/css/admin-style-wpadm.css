@@ -68,11 +68,13 @@
     font-size:20px;
 }
 .wpadm-info-title p {
-    font-size: 14px;
-    color:#ddd;
-    font-style: italic;
-    text-align: left;
-    margin-left: 5px;
+    font-size: 16px;
+    padding: 10px 5px;
+    margin-top:10px;
+}
+.wpadm-info-title p a{
+    color:#0096d6;
+    margin: 5px;
 }
 .wpadm-registr-info {
     width: 65%;

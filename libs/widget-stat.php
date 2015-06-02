@@ -19,13 +19,13 @@ if ( ! class_exists("wpadm_widget_stat")) {
     class wpadm_widget_stat extends WP_Widget {
         function __construct()
         {
-            $widget_ops = array( 'classname' => 'wpadm_counter_widget', 'description' => 'WPADM counter' );
+            $widget_ops = array( 'classname' => 'wpadm_counter_widget', 'description' => 'Stats counter' );
 
             $control_ops = array( 'width' => 400, 'height' => 550, 'id_base' => 'wpadm_counter_widget' );
             if (version_compare(phpversion(), '5.0.0', '>=')) {
-                parent::__construct('wpadm_counter_widget', 'WPADM Counter', $widget_ops, $control_ops);
+                parent::__construct('wpadm_counter_widget', 'Stats Counter', $widget_ops, $control_ops);
             } else {
-                $this->WP_Widget('wpadm_counter_widget', 'WPADM Counter', $widget_ops, $control_ops );
+                $this->WP_Widget('wpadm_counter_widget', 'Stats Counter', $widget_ops, $control_ops );
             }
         }
         function widget( $args, $instance ) 
