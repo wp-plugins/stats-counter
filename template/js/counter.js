@@ -22,7 +22,7 @@ function openInfoDetail(id)
             return true;
         }
     } 
-    
+
     if (id != last_id) {
         document.getElementById(id).style.display = "";
     }
@@ -52,5 +52,20 @@ function checkmail(value) {
         return false; 
     } else {
         return true;
+    }
+}
+var _app_id = "";
+function showFormApplication()
+{
+    disp = jQuery("#app_id").css('display');
+    if (disp == 'none') {
+        jQuery("#app_id").show('slow');
+        if (_app_id != "") {
+            jQuery("#app_id").val(_app_id);
+        }
+    } else {
+        jQuery("#app_id").hide('slow');
+        _app_id = jQuery("#app_id").val();
+        jQuery("#app_id").val("");
     }
 }
