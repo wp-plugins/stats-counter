@@ -24,7 +24,7 @@ The Stats Counter track:
 * Statistical Data Bit
 * Operating System
 * Landing page
-* Return Visitors 
+* Returned Visitors (Web Page "Views")
 * Browser Brand
 * IPv4
 * IPv6
@@ -55,3 +55,5 @@ We make a  Stats Counter who count all new trend in Websitetracking how: IPv6, C
 == Frequently Asked Questions ==
 
 FAQ
+
+
