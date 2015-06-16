@@ -22,7 +22,7 @@ The Stats Counter track:
 * Statistics by country
 * Statistics screen resolution
 * Statistical Data Bit
-* Operating System
+* Operating Systems
 * Landing pages
 * Returned Visitors (Web Page "Views")
 * Browser Brands
@@ -32,6 +32,8 @@ The Stats Counter track:
 * Password protected Counter
 * Hidden Counter
 
+Customize your counter design for Stats Counter or select flexible colors for the counter of your web page.
+
 
 If you need help with the plugin or you want to report a bug please refer to http://www.wpadm.com/support/
 
@@ -39,7 +41,6 @@ If you need help with the plugin or you want to report a bug please refer to htt
 
 1. Upload the plugin folder `stats counter` to the `/wp-content/plugins/` directory of your WordPress installation.
 2. Activate the plugin through the `Plugins` menu in WordPress
-3. If you wish your can customize design of your Stats Counter design or flexible Color of Counter for your Webpage.
 
 
 
