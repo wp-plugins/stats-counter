@@ -23,9 +23,9 @@ The Stats Counter track:
 * Statistics screen resolution
 * Statistical Data Bit
 * Operating System
-* Landing page
+* Landing pages
 * Returned Visitors (Web Page "Views")
-* Browser Brand
+* Browser Brands
 * IPv4
 * IPv6
 
