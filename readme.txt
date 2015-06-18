@@ -20,6 +20,8 @@ Stats Counter Plugin analyse statistics on your web page, unique users, countrie
 
 The Stats Counter track:
 
+* Unique Users Analytics: analyze your unique user analytics
+
 * Statistics by city
 * Statistics by country
 * Statistics screen resolution
