@@ -49,6 +49,7 @@ If you need help with the plugin or you want to report a bug please refer to htt
 
 
 Stats Counter Plugin have a settings section on WordPress plugin page.
+
 If you need help with the plugin or you want to report a bug please refer to http://www.wpadm.com/support/
 
 == Other ==
@@ -59,6 +60,7 @@ We make a  Stats Counter who count all new trend in Websitetracking how: IPv6, C
 
 == Frequently Asked Questions ==
 
-FAQ
+FAQ coming soon
+
 
 
