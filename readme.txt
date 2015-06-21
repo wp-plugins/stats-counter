@@ -28,6 +28,7 @@ The Stats Counter track:
 * Statistical Data Bit
 * Operating Systems
 * Landing pages
+* Unique visitors
 * Returned Visitors (Web Page "Views")
 * Browser Brands
 * IPv4
