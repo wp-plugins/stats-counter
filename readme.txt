@@ -55,6 +55,8 @@ If you need help with the plugin or you want to report a bug please refer to htt
 
 == Other ==
 
+* Online user monitor (coming soon)
+
 Usefull additional functions can be found at www.wpadm.com in the User profile.
 Stats counter is a new plugin, so we tryed have to provide a bug-free plugin/widget. We are maintain this project.
 We make a  Stats Counter who count all new trend in Websitetracking how: IPv6, Country and City detection, Referer statistic and so on.
