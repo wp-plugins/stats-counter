@@ -1,5 +1,5 @@
-=== Stats Counter ===
-Plugin Name: Stats Counter
+=== Analytics Stats Counter Statistics ===
+Plugin Name: Analytics: Stats Counter Statistics
 Version: 1.1
 Donate link: http://www.wpadm.com/donate
 URI: http://www.wpadm.com/stats-counter
@@ -14,11 +14,11 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Author: WPAdm.com
 Contributors: WPAdm.com
 
-Stats Counter Plugin analyse statistics on your web page, unique users, countries, city's, IPs. 
+Analytics Stats Counter Statistics Plugin analyse statistics on your web page, unique users, countries, city's, IPs. 
 
 == Description ==
 
-The Stats Counter track:
+The Analytics Stats Counter Statistics track:
 
 * Unique User Analytics: analyze your unique users
 
@@ -37,7 +37,7 @@ The Stats Counter track:
 * Password protected Counter
 * Hidden Counter
 
-Customize your counter design for Stats Counter or select flexible colors for the counter of your web page.
+Customize your counter design for Analytics Stats Counter Statistics or select flexible colors for the counter of your web page.
 
 
 If you need help with the plugin or you want to report a bug please refer to http://www.wpadm.com/support/
@@ -49,7 +49,7 @@ If you need help with the plugin or you want to report a bug please refer to htt
 
 
 
-Stats Counter Plugin have a settings section on WordPress plugin page.
+Analytics Stats Counter Statistics Plugin have a settings section on WordPress plugin page.
 
 If you need help with the plugin or you want to report a bug please refer to http://www.wpadm.com/support/
 
@@ -58,7 +58,7 @@ If you need help with the plugin or you want to report a bug please refer to htt
 * Online user monitor (coming soon)
 
 Usefull additional functions can be found at www.wpadm.com in the User profile.
-Stats counter is a new plugin, so we tryed have to provide a bug-free plugin/widget. We are maintain this project.
+Analytics Stats Counter Statistics is a new plugin, so we tryed have to provide a bug-free plugin/widget. We are maintain this project.
 We make a  Stats Counter who count all new trend in Websitetracking how: IPv6, Country and City detection, Referer statistic and so on.
 
 == Frequently Asked Questions ==
