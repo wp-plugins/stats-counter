@@ -14,7 +14,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Author: WPAdm.com
 Contributors: WPAdm.com
 
-Analytics Stats Counter Statistics Plugin analyse statistics on your web page, unique users, countries, city's, IPs. 
+Analytics Stats Counter Statistics Plugin analyse visitors statistics on your web page, unique users, countries, city's, IPs. 
 
 == Description ==
 
