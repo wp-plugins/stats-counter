@@ -61,6 +61,31 @@ Usefull additional functions can be found at www.wpadm.com in the User profile.
 Analytics Stats Counter Statistics is a new plugin, so we tryed have to provide a bug-free plugin/widget. We are maintain this project.
 We make a  Stats Counter who count all new trend in Websitetracking how: IPv6, Country and City detection, Referer statistic and so on.
 
+The following counter types are at our website www.wpadm.com to choose from. Analytic Counter or tracker without registration. Just the "Counter code" in your page to insert and off you go. Two new Counter-types have been added. The Maxi-Counter and the standard counter. Both visitors are displayed as a PNG file. 
+A detailed statistics you can find in the Analytics section from the user. Multi Analytics Counter The following designs and products, simply sign up at www.wpadm.com and select the Analytic range of users the desired counter. 
+The detailed statistics you can find in the Analytics section from the user. 
+
+= Maxi Analytics Counter (Statistics Tracker) =
+The following designs and products, simply register and select the range of Analytics users the desired counter. The detailed statistics you can find in the Analytics section from the user. 
+
+= Text Analytics Counter (Stats Tracker) =
+The Analytics Counters can look like this. When text-counter, the count is output as text without formatting. You can format the text using HTML tags or CSS. 
+The following settings are possible: 
+* Analyze Hits / clicks analytics, visitors yesterday, total visitors, number of users who are now online and Total visitors (see our samples at www.wpadm.com) ;
+* Analyze Hits / Overall analytics clicks;
+* Total Analytic & Visitors of your website;
+
+<strong>The detailed statistics you can find in the Analytics section from the user.</strong>
+
+= Standard Counter for Analytics (Tracker Analyzer) =
+The following designs and products, simply sign up and select the user area to the desired counter. In this counter every visitor is only counted once per day. The detailed statistics you can find in Counter admin area.
+
+= Analytics & Stats Counter =
+When statistics counter only one graph is displayed. This counter is recommended to create a detailed access statistics for the complete site. The "Counter-source code" installed easily on any of your pages. The detailed statistics you can find in the user area or by clicking on the displayed image.
+
+
+
+
 == Frequently Asked Questions ==
 
 FAQ coming soon
