@@ -117,7 +117,11 @@ Analytics counter have 3 display types. Easiest is visible (not hidden) analytic
 
 == Frequently Asked Questions ==
 
-FAQ coming soon
+I just wanted to now what city is "others..." ?
+
+Counter takes into account all of the city where visitors come to your web page. Table TOP10 show you the top 9 cities where you get the highest number of visitors and the "other" at number 10. 
+The "other" - all the cities, we are counting, that are not included in the TOP10 list. This is "summary" of all cities, that are not apparent from TOP10 list. In most cases these are small towns and villages.
+
 
 
 
