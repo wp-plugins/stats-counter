@@ -784,7 +784,7 @@
             <table class="table">
                 <tr>
                     <th class="w2">Date</th>
-                    <th valign="middle" colspan="2">IP - Flag Counter</th>
+                    <th class="w1" colspan="2">IP - Flag Counter</th>
                     <th class="w1">System</th>
                     <th class="w1">Browser</th>
                     <th class="w3">Referer</th>
@@ -799,10 +799,10 @@
                             <td>
                                 <?php echo $value[4] ?>
                             </td>
-                            <td style="text-align: right; padding-right: 10px; width: 170px;">
+                            <td style="text-align: right; padding-right: 10px; width: 100px;">
                                 <a href="javascript:void(0)" onclick="openInfoDetail('<?php echo $hash;?>')"><?php echo $value[3]['ip'];?></a>
                             </td>
-                            <td style="text-align: left; width: 50px;">
+                            <td style="text-align: left; width: 30px;">
                                 <img src="<?php echo IMG_STAT . 'system/geo/' . $value[3]['country_code'] . '.gif'?>" alt="<?php echo $value[3]['country'];?>" title="<?php echo $value[3]['country'];?>" />
                             </td>
                             <td class="stat">
