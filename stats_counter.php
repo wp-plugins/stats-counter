@@ -2,7 +2,7 @@
 /*
 Plugin Name: Stats Counter
 Description: visitors statistics by Stats Counter! 
-Version: 1.2
+Version: 1.2.1
 */
 
 require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . 'wpadm-class-wp.php';
