@@ -56,11 +56,7 @@ If you need help with the plugin or you want to report a bug please refer to htt
 == Other ==
 
 
-<h3>Test</h3>
-<br />
-<table border=1>
-<tr><td>test table1</td><td>test table2</td><td>test table3</td></tr>
-</table>
+
 
 
 * Online user monitor (coming soon)
