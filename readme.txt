@@ -3,7 +3,7 @@ Plugin Name: Analytics: Stats Counter Statistics
 Version: 1.2.1
 Donate link: http://www.wpadm.com/donate
 URI: http://www.wpadm.com/stats-counter
-Tags: Stats, Stats, Stat, Counter, analytics, bbpress, analytic, hidden, hidden counter, visitor, visitors, hit, buddypress, hits, count, widget, admin, image, images, Post, plugin, posts, sidebar, google, page, comments, shortcode, twitter, track, tracking, geo, geotracking, geotargeting, geolocation, maxmind, online users, online, analyze, pageviews, reports, spider, statistics, page views, design counter, users, unique visitors, unique, realtime, views, web, page, webpage views, web page views, counters, statscounter, stats counter, statistic, wassup
+Tags: Stats, Stats, Stat, Counter, analytics, bbpress, analytic, hidden, hidden counter, visitor, visitors, hit, buddypress, hits, count, widget, admin, image, images, Post, plugin, posts, sidebar, google, page, comments, shortcode, twitter, track, tracking, geo, geotracking, geotargeting, geolocation, maxmind, online users, online, analyze, pageviews, reports, spider, statistics, page views, design counter, users, unique visitors, unique, realtime, views, web, page, webpage views, web page views, counters, statscounter, stats counter, statistic, wassup, google analytics
 
 
 Requires at least: 4.0.0
@@ -115,6 +115,51 @@ Works easily and quickly, without registration!
 
 = Capability of Analytics Counter =
 Analytics counter have 3 display types. Easiest is visible (not hidden) analytic hit counter on you webpage. In this case all your statistic and analytic by click on you statistic counter can see all your visitors and hits of your former visitors.  That means your statistic, hits and analytics of your visitors is open for your competitors and visitors. The second statistic hits counter type is password protected. By password protected hits statistic counter is your statistic, and visitors hits protected throw password but the statistic counter self is visible for your visitors. If your choose statistic counter with displayed statistic in most cases it is hits of visitors of all time, hits visitors this week and hit counter of today. But the detailed statistic and analytics of hits counter is for your visitors and competitors is invisible. The detailed statistic analyze every visitor: His IP (among other IP v60), the city from the visitor came, the country of the visitors and the time of the visit, in the statistic you see the system of visitors PC (for example Windows 7), in the statistic you see the mobile visitors (the visitors from mobile devises), statistic show also the browser brand of the user (for example hits visitors from Firefox or hits visitors from explorer). Additional the hit counter show the statistic by bot. The statistic by bot analyzes most common bots on your web page. Hit counter statistic is in %. Most common bot is Google bot. Google analyses every you page, but the are other bots how:  Baidu statistic visitor bot or Bing statistic bot. Also the user hit counter statistic analyses the unique visitors from visitors that return. The unique visitors that returns statistic determinate throw there IP. In special chart we analysis visitors per month and visitors per week. In separate statistic chart you see the growth of you unique visitors. This all can you see in our detailed hit counter statistic. The third counter type is hidden statistic counter. That mean your statistic and analysis are hidden from visitors and your statistic is open only for you. All visitors hits statistic is available in separate statistic window or by us or inside your admin area.
+
+= Stats Counter vs Google Analytics =
+
+In the following lines you will see a comparison of Stats Counter vs Google Analytics.
+
+* Google Analytics Support 												<b>Standard Free</b>
+* Google Analytics 24/7 Dedicated Support Team 							
+* Google Analytics Account Management 										
+* Google Analytics Implementation Specialist 								
+* Google Analytics Training from Google experts 							
+* Google Analytics Self-Service Support - Help Centre, User Forum 			
+* Google Analytics Optional Certified Partner Support 						
+* Google Analytics Data Processing & Limits 								<b>Standard</b>
+* Google Analytics Hits processed per month 								<b>10 Million</b>
+* Google Analytics Rows of data available in reports 						<b>50,000</b>
+* Google Analytics Unsampled Reporting 									
+* Google Analytics Data Freshness 										more then 24 Hours
+* Google Analytics Advertising & Multi-Channel 							Standard
+* Google Analytics Attribution Modelling 									
+* Google Analytics Campaign Measurement 									
+* Google Analytics AdWords Integration 									
+* Google Analytics Multi-Channel Reporting 								
+* Google Analytics Analysis Tools 										Standard
+* Google Analytics Custom Variables 										5
+* Google Analytics Advanced Segmentation 									
+* Google Analytics Custom Reporting 										
+* Google Analytics Intelligence 									
+* Google Analytics Flow Visualisation 										
+* Google Analytics Real Time Data 											
+* Google Analytics Social, Mobile & Video 								Standard
+* Google Analytics Social Referral and Conversion Reporting 				
+* Google Analytics Mobile Device and App Tracking 							
+* Google Analytics Video Performance Measurement 							
+* Google Analytics Customisation & Integrations 							Standard
+* Google Analytics Data Export and Tracking API 							
+* Google Analytics Custom Reports 											
+* Google Analytics Sharing & Workflow 									Standard
+* Google Analytics Intuitive UI, Rapid Set Up 								
+* Google Analytics Dashboards, Custom Reports, Advanced Segments 			
+* Google Analytics Export and Email report functionality 					
+* Google Analytics Service Level Agreements & Guarantees 					Standard
+* Google Analytics Freshness 												more then 24 Hours
+* Google Analytics Collection 												
+* Google Analytics Reporting 												
+* Google Analytics Service Level Guarantees 								
 
 
 
