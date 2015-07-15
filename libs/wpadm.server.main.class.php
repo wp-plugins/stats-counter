@@ -35,9 +35,9 @@
         add_action('admin_post_wpadm_activate_plugin', array('wpadm_class', 'activatePlugin') );
         add_action('admin_post_wpadm_delete_pub_key', array('wpadm_class', 'delete_pub_key') );
 
-        add_action('admin_post_wpadm_getJs', array('wpadm_class', 'getJs') );
+        //add_action('admin_post_wpadm_getJs', array('wpadm_class', 'getJs') );
 
-        add_action('admin_print_scripts', array('wpadm_class', 'includeJs' ));
+        //add_action('admin_print_scripts', array('wpadm_class', 'includeJs' ));
 
         class wpadm_class {
 
@@ -68,6 +68,11 @@
             private static $status = "0";
             private static $error = "";
 
+            public static function debug($msg)
+            {
+                file_put_contents( dirname(__FILE__) . "/../debug.log", "$msg\r\n", FILE_APPEND);
+            }
+            
             public static function setBackup($b)
             {
                 self::$backup = $b;
@@ -257,8 +262,6 @@
                         curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
                         curl_setopt($curl, CURLOPT_POST, true);
                         curl_setopt($curl, CURLOPT_POSTFIELDS, $postdata);
-                        curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_ANY);
-                        curl_setopt($curl, CURLOPT_USERPWD, "admin24:admin24");
                         self::$result = curl_exec($curl);
                         curl_close($curl);
                         if ($stat) {

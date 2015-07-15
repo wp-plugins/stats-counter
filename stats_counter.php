@@ -1,8 +1,11 @@
 <?php
 /*
 Plugin Name: Stats Counter
-Description: visitors statistics by Stats Counter! 
-Version: 1.2.1
+Plugin URI: http://www.wpadm.com
+Description: Visitors statistics by Stats Counter!
+Version: 1.2.2
+Author: WPAdm.com
+Author URI: http://www.wpadm.com
 */
 
 require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . 'wpadm-class-wp.php';
@@ -26,7 +29,9 @@ register_activation_hook( __FILE__, array('wpadm_wp_stat','on_activate'));
 register_deactivation_hook( __FILE__, array('wpadm_wp_stat','on_deactivate'));
 add_action('widgets_init', array('wpadm_wp_stat', 'widgets_initial') );
 add_action('init', array('wpadm_wp_stat', 'initWidget'));
+add_action( 'wp_footer', array("wpadm_wp_stat", "addFooter") );
 add_filter('plugin_action_links', array('wpadm_wp_stat', 'manage_link'), 10, 2);
+
 if (!function_exists('wpadm_debug')) {
     function wpadm_debug($msg)
     {

@@ -1,3 +1,5 @@
+<script src="<?php echo plugin_dir_url(__FILE__) . 'js/jquery.arcticmodal-0.3.min.js'?>" type="text/javascript"></script>
+<link rel='stylesheet'  href='<?php echo plugin_dir_url(__FILE__) . 'js/jquery.arcticmodal-0.3.css'?>' type='text/css' media='all' />
 <div class="wrap">
     <script>
 
@@ -56,7 +58,33 @@
             }
         }
 
+        function showFormPosition()
+        {
+            var data_request = {
+                'action': 'position_form',
+            };
+            jQuery.arcticmodal({
+                type: 'ajax',
+                url: ajaxurl,
+                ajax: {
+                    data : data_request,
+                    type: 'post',
+                    cache: false,
+                    dataType: 'json',
+                    success: function(data, el, responce) {
+                        var h = jQuery('<div id="support_form_over" class="box-modal" style="display:block;">'+responce.html+'</div>');
+                        data.body.html(h);
+                    }
+                },
+                beforeClose: function(data, el) {
 
+                }
+            });
+        }
+        function savePostition()
+        {
+            jQuery.arcticmodal('close');
+        }
     </script>  
     <h2>WPADM Statistic</h2>
 
@@ -152,7 +180,7 @@
 
                 <?php } ?>
         </div>
-
+        <div style="display: none;" id="position-code"></div>
         <div class="stat-form-counter inline stat-setting" style="border: 10px solid #0096d6;">
             <div id="stat-title-setting" style="">Counter Settings</div>
             <div id="setting-form" style="display: none;">
@@ -253,7 +281,12 @@
                         </div>
                     </div>
                     <div class="clear"></div>  
-                    <div class="stat-setting-save"><input type="submit" name="send" value="Save Settings" class="button-wpadm" /></div>
+                    <div class="stat-setting-save">
+                        <div style="float:left; margin-left: 35px;">
+                            <input class="button-wpadm" onclick="showFormPosition();" value="Position" type="button" />
+                        </div>
+                        <input type="submit" name="send" value="Save Settings" class="button-wpadm" />
+                    </div>
                 </form>
             </div>
             <div class="clear"></div>  

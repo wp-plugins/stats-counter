@@ -12,11 +12,18 @@
     require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . "libs/error.class.php";
     require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . "libs/wpadm.server.main.class.php";
     if (! class_exists("wpadm_wp_stat") ) {
+
+        add_action('wp_ajax_position_form', array('wpadm_wp_stat', 'position_form') );
+        add_action('wp_ajax_testCounter', array('wpadm_wp_stat', 'test_counter') );
+        add_action('admin_post_savePosition', array('wpadm_wp_stat', 'saveSettingPosition') );
+
         class wpadm_wp_stat extends wpadm_class  {
 
             static private $data_counter = array(); 
+            static private $templates = array('index.php', 'footer.php', 'single.php', 'archive.php', 'page.php');
 
             static private $file_hash = "";
+            static private $die = true;
 
             /**
             * add link to plugins panel
@@ -31,6 +38,179 @@
                     array_unshift($links, $settings_link);
                 }
                 return $links;
+            }
+
+            public static function test_counter()
+            {
+                if (!function_exists('wp_safe_remote_get')) {
+                    include ABSPATH . WPINC . "/http.php";
+                }
+                $res = array('status' => 'fail');
+                $res['status'] = self::checkCounterInUrl( home_url('/') );
+                if ($res['status'] != 'success') {   /// check posts in wordpress
+                    $args = array(
+                    'post_type'        => 'post',
+                    'post_status'      => 'publish',
+                    'suppress_filters' => true 
+                    );
+                    $posts_array = get_posts( $args ); 
+                    $i = rand(0, count($posts_array ) - 1 );  // http://localhost/wp-stats/?p=111
+                    if ( isset( $posts_array[$i]->guid ) && !empty( $posts_array[$i]->guid ) ) {
+                        $res['status'] = self::checkCounterInUrl( $posts_array[$i]->guid ); 
+                    }
+                    if ($res['status'] != 'success') {     /// check pages in wordpress
+                        $args = array(
+                        'post_type'        => 'page',
+                        'post_status'      => 'publish',
+                        'suppress_filters' => true 
+                        );
+                        $posts_array = get_posts( $args ); 
+                        $i = rand(0, count($posts_array ) - 1 );  // http://localhost/wp-stats/?p=111
+                        if ( isset( $posts_array[$i]->guid ) && !empty( $posts_array[$i]->guid ) ) {
+                            $res['status'] = self::checkCounterInUrl( $posts_array[$i]->guid ); 
+                        }
+                    }
+                }
+                if (self::$die) {
+                    echo json_encode($res);
+                    wp_die();
+                } else {
+                    return $res;
+                }
+            }
+            private static function checkCounterInUrl($url)
+            {
+                if (!function_exists('wp_safe_remote_get')) {
+                    include ABSPATH . WPINC . "/http.php";
+                }
+                $res = 'fail';
+                $request = wp_remote_get( $url ); 
+                if (!is_wp_error($request)) {
+                    $search = str_replace(array(".", "/"), array("\.", "\/") , SERVER_URL_STAT );
+                    if (preg_match("/<div id=\"counter24\">.*$search/i", $request['body'])) {
+                        $res = 'success';
+                    }
+                }
+                return $res;
+            }
+
+            public static function saveSettingPosition()
+            {
+                if (isset($_POST['code-add'])) {
+                    self::deleteWidget();
+                    self::deleteCodeTemplate();
+                    $w = self::getDataFlag();
+                    $w['method-position'] = $w['method'] = trim( strip_tags( stripslashes( $_POST['code-add'] ) ) );
+                    if ($w['method-position'] == 'auto') {
+                        self::unset_($w, 'method');
+                    } elseif ( $w['method-position'] == 'template' ) {
+                        $w['position'] = trim( strip_tags( stripslashes( $_POST['template-position'] ) ) );
+                        $w['html'] = 0;
+                        $w = array_merge($w, self::getReplace($w['position']));
+                    } elseif( $w['method-position'] == 'manual' ) {
+                        $w['method'] = 'manual';
+                    } elseif ( $w['method-position'] == 'sidebar' ) {
+                        $w['widget'] = $_POST['sidebar-position'];
+                        self::addWidget($_POST['sidebar-position']);
+                    }
+                    self::setDataFlag($w);    
+                }
+                header("Location: " . admin_url( 'admin.php?page=stats_counter' ) );
+                exit;
+
+            }
+            private static function deleteCodeTemplate()
+            {
+                $w = self::getDataFlag();
+                $w['html'] = 1; 
+                $n = count(self::$templates);
+                for($i = 0; $i < $n; $i++) {
+                    $w_ = array_merge($w, self::getReplace(self::$templates[$i]));
+                    $w_['position'] = self::$templates[$i];
+                    self::setDataFlag($w_);
+                    self::deleteToTheme();
+                }
+                self::unset_($w, 'html');
+                self::unset_($w, 'widget');
+                self::unset_($w, 'position');
+                self::unset_($w, 'method');
+                self::unset_($w, 'from');
+                self::unset_($w, 'to');
+                self::unset_($w, 'del_to');
+                self::unset_($w, 'del_from');
+                self::setDataFlag($w);
+
+            }
+            private static function getReplace($position)
+            {   
+                $w = array();
+                $code = get_option(_PREFIX_STAT . 'counter_code');  
+                switch($position) {
+                    case 'index.php' :
+                        $w['from'] = "<?php get_footer(); ?>";
+                        $w['to'] = "<!-- start counter24 --> $code <!-- end counter24 -->\<\?php get_footer\(\)\; \?\>";
+                        $w['del_to'] = "<!-- start counter24 -->(.*)<!-- end counter24 -->";
+                        $w['del_from'] = "";
+                        break;
+                    case 'footer.php' : 
+                        $w['from'] = "</body>";
+                        $w['to'] = "<!-- start counter24 --> $code <!-- end counter24 --><\/body>";
+                        $w['del_to'] = "<!-- start counter24 -->(.*)<!-- end counter24 -->";
+                        $w['del_from'] = "";
+                        break;
+                    case 'single.php' : 
+                        $w['from'] = "<?php get_footer(); ?>";
+                        $w['to'] = "<!-- start counter24 --> $code <!-- end counter24 -->\<\?php get_footer\(\)\; \?\>";
+                        $w['del_to'] = "<!-- start counter24 -->(.*)<!-- end counter24 -->";
+                        $w['del_from'] = "";
+                        break;
+                    case 'archive.php' : 
+                        $w['from'] = "<?php get_footer(); ?>";
+                        $w['to'] = "<!-- start counter24 --> $code <!-- end counter24 -->\<\?php get_footer\(\)\; \?\>";
+                        $w['del_to'] = "<!-- start counter24 -->(.*)<!-- end counter24 -->";
+                        $w['del_from'] = "";
+                        break;
+                    case 'page.php' : 
+                        $w['from'] = "<?php get_footer(); ?>";
+                        $w['to'] = "<!-- start counter24 --> $code <!-- end counter24 -->\<\?php get_footer\(\)\; \?\>";
+                        $w['del_to'] = "<!-- start counter24 -->(.*)<!-- end counter24 -->";
+                        $w['del_from'] = "";
+                        break;
+                }
+                return $w;
+            }
+            private static function unset_(&$array, $key) 
+            {
+                if (isset($array[$key])) {
+                    unset($array[$key]);
+                } 
+            }
+
+            public static function position_form()
+            {
+
+                $n = count(self::$templates);
+                $sidebars = get_option( 'sidebars_widgets' );
+                self::unset_($sidebars, 'wp_inactive_widgets');
+                self::unset_($sidebars, 'array_version');
+                $sidebars = array_keys($sidebars);
+                $path = get_template_directory();
+                $files = array();
+                for($i = 0; $i < $n; $i++) {
+                    if (file_exists($path . "/" . self::$templates[$i])) {  // search  get_footer() function
+                        $html = file_get_contents($path . "/" . self::$templates[$i]);
+                        if (strpos($html, 'get_footer()') !== false) {
+                            $files[] = self::$templates[$i];
+                        }
+                    }
+                }
+                $code = get_option(_PREFIX_STAT . 'counter_code');
+                $insall_to = self::getDataFlag();
+                ob_start();
+                include dirname(__FILE__) . DIRECTORY_SEPARATOR . "template" . DIRECTORY_SEPARATOR . "position-form.php";
+                $html = ob_get_clean();
+                echo json_encode( array('html' => $html) );
+                wp_die();
             }
 
             protected static function add_options_plugin($result)
@@ -71,7 +251,6 @@
                 $show = (!is_super_admin() || !is_admin()) || !get_option(_PREFIX_STAT . 'counter_id');
                 if (!$show) {
                     if (isset($_POST['send'])) {
-
                         $new_instance['counter_hidden'] = isset($_POST['hidden_counter']) && $_POST['hidden_counter'] == 1 ? 2 : 0;
                         $new_instance['counter_image'] = get_option(_PREFIX_STAT . 'default_image');
                         $new_instance['counter_image_color'] = isset($_POST['color_image']) ? $_POST['color_image'] : "#ffffff";
@@ -357,6 +536,7 @@
             }
             static function on_deactivate()
             {
+                self::deleteToTheme();
                 delete_option(_PREFIX_STAT . 'counter_id');
                 delete_option(_PREFIX_STAT . 'images');
                 delete_option(_PREFIX_STAT . 'default_image');
@@ -432,7 +612,9 @@
             {
                 if (isset($_GET['page']) && ($_GET['page'] == 'stats_counter' || $_GET['page'] == 'wpadm_plugins')) {
                     wp_register_style('wpadm_counter_jquery_minicolors_css', plugins_url("template/css/jquery.minicolors.css",__FILE__));
+                    wp_register_style('css-admin-stats', plugins_url("template/css/admin-style-wpadm.css", __FILE__));
                     wp_enqueue_style('wpadm_counter_jquery_minicolors_css');
+                    wp_enqueue_style('css-admin-stats');
                 }
             }
             public static function adding_files_script()
@@ -448,10 +630,146 @@
             }
             public static function initWidget($sidebar_id = false)
             {
-                if ( self::checkWidget() === false) {   
-                    self::addWidget($sidebar_id);
+                if (!file_exists(dirname(__FILE__) . "/flag_init" )) {
+                    file_put_contents(dirname(__FILE__) . "/flag_init", 1);
+                    $w = self::getDataFlag();
+                    if (!isset($w['widget_check']) && !isset($w['method'])) {
+                        $w['widget_check'] = 1;
+                        self::setDataFlag($w);
+                        if ( ( $sidebar = self::checkWidget() ) === false) {   
+                            self::addWidget($sidebar_id);
+                        } else {
+                            $w = self::getDataFlag();
+                            $w['widget'] = $sidebar;
+                            $w['install'] = 1;
+                            self::setDataFlag( $w );
+                        }
+                        if ( self::checkWidgetInMainPage() === false ) {
+                            if ( !self::addToFooter() ) {
+                                self::addToTheme();
+                            }
+                        }
+                    } elseif (isset($w['method']) && isset($w['position'])) {
+                        if (strpos( $w['position'], 'sidebar' ) !== false) {
+                            self::addWidget($w['position']);
+                        } else {
+                            self::unset_($w, 'widget');
+                            self::addToTheme();
+                        }
+                    } else {
+                        if(isset($w['method'])) {
+                            unset($w['method']);
+                        }
+                    }
+                    $w = self::getDataFlag();
+                    if (isset($w['widget_check'])) {
+                        unset($w['widget_check']);
+                    }
+                    self::setDataFlag($w);
+                    unlink(dirname(__FILE__) . "/flag_init");
                 }
                 return false;
+            }
+
+            private static function addToTheme()
+            {
+                $w = self::getDataFlag(); 
+                if (!isset($w['html']) || (isset($w['html'])  )) {   //&& $w['html'] == 0
+                    $path = get_template_directory();
+                    $file = isset($w['position']) ? $w['position'] : 'footer.php';  
+                    if (file_exists($path . "/$file")) {
+                        $html = file_get_contents($path . "/$file");
+                        if (!preg_match("/<\!-- start counter24 -->(.*)<!-- end counter24 -->/", $html)) {
+                            $code = get_option(_PREFIX_STAT . 'counter_code');
+                            $search = isset($w['from']) ? str_replace('\\', '', $w['from']) : '</body>';
+                            $replace = isset($w['to']) ? str_replace('\\', '', $w['to']) : "<!-- start counter24 --> $code <!-- end counter24 --></body>";
+                            if (strpos($html, $search) === false) {
+                                $search = str_replace(array('?>', '<?php', ' '), '', $search);
+                                $replace = ' ?>' . $replace ;
+                            }
+                            $html = str_replace($search, $replace, $html);
+                            file_put_contents($path . "/$file", $html);
+                            $w['html'] = 1;
+                            self::setDataFlag($w);
+                        }
+                    }
+                }
+            }
+            private static function deleteToTheme()
+            {
+                $w = self::getDataFlag();
+                if (isset($w['html']) && $w['html'] == 1) {
+                    $path = get_template_directory();
+                    $file = isset($w['position']) ? $w['position'] : 'footer.php';
+                    if (file_exists($path . "/$file")) {
+                        $html = file_get_contents($path . "/$file");
+                        if ( !isset($w['del_to']) ) {
+                            $search = "/<\!-- start counter24 -->(.*)<\!-- end counter24 --><\/body>/";
+                        } else {
+                            $search = "/{$w['del_to']}/";
+                        }
+                        $repl = isset($w['del_from']) ? $w['del_from'] : '<\/body>';
+                        if (strpos($html, $search) === false) {
+                            $search = str_replace(array('?>', '<?php'), '', $search);
+                            $replace = ' ?>' . $replace ;
+                        }
+                        $html = preg_replace($search, $repl, $html);
+                        file_put_contents($path . "/$file", $html);
+                        $w['html'] = 0;
+                        self::setDataFlag($w);
+                    }
+                }
+
+            }
+            public static function checkWidgetInMainPage()  
+            {
+                if (!function_exists('wp_safe_remote_get')) {
+                    include ABSPATH . WPINC . "/http.php";
+                }
+                $res = wp_remote_get( home_url('/') );
+                if (is_wp_error($res)) {
+
+                } else {
+                    $search = str_replace(array(".", "/"), array("\.", "\/") , SERVER_URL_STAT );
+                    if (preg_match("/<div id=\"counter24\">.*$search/i", $res['body'])) {
+                        $w = self::getDataFlag();
+                        $w['install'] = 1;
+                        self::setDataFlag($w);
+                        return true;   /// change on true
+                    }
+                }
+                return false;
+
+            }
+            private static function addToFooter()
+            {
+                $w = self::getDataFlag();
+                if (!isset($w['footer']) || (isset($w['footer']) && $w['footer'] == 0)) {
+                    $w['footer'] = 1;
+                    self::setDataFlag($w);
+                    $res = wp_remote_get( home_url('/') );
+                    if (!is_wp_error($res)) {
+                        $search = str_replace(array(".", "/"), array("\.", "\/") , SERVER_URL_STAT );
+                        if (preg_match("/<div id=\"counter24\">.*$search/i", $res['body'])) {
+                            $w['install'] = 1;
+                            self::setDataFlag($w);
+                            return true;
+                        }
+                        self::unset_($w, 'footer');
+                        self::setDataFlag($w);
+                    }
+                }
+                return false;
+            }
+            public static function addFooter()
+            {
+                if ( file_exists( dirname(__FILE__) . "/widget" ) ) {
+                    $w = self::getDataFlag();
+                    if (isset($w['footer']) && $w['footer'] == 1) {
+                        $code = get_option(_PREFIX_STAT . 'counter_code');
+                        echo $code;
+                    }
+                }
             }
             public static function addWidget($sidebar_id = false)
             {
@@ -472,6 +790,10 @@
                                 }
                                 if (!in_array("wpadm_counter_widget-" . $id_widget[1], $sidebars_widgets[$sidebar])) {
                                     $sidebars_widgets[$sidebar] = array_merge($sidebars_widgets[$sidebar] , array( "wpadm_counter_widget-" . $id_widget[1] ));
+                                    $w = self::getDataFlag();
+                                    $w['widget'] = $sidebar;
+                                    $w['install'] = 1;
+                                    self::setDataFlag( $w );
                                     $ops = get_option( 'widget_wpadm_counter_widget' );
                                     $ops[$id_widget[1]] = array(
                                     'title' => 'WPADM Counter',
@@ -509,6 +831,21 @@
                 }
                 return false;
             }
+            private static function setDataFlag( $data )
+            {
+                file_put_contents( dirname(__FILE__) . "/widget", base64_encode( serialize( $data ) ) );
+            }
+            private static function getDataFlag()
+            {
+                $w = array();
+                if ( !file_exists( dirname(__FILE__) . "/widget" ) ) {
+                    file_put_contents( dirname(__FILE__) . "/widget" ,  base64_encode( serialize( $w ) ) );
+                } else {
+                    $w = unserialize( base64_decode( file_get_contents( dirname(__FILE__) . "/widget" ) ) );
+                }
+                return $w;
+            }
+
             public static function checkWidget()
             {
                 $sidebars_widgets = get_option( 'sidebars_widgets' );
@@ -518,7 +855,7 @@
                         if (is_array($sidebar)) {
                             foreach($sidebar as $k => $w) {
                                 if (stripos($w, "wpadm_counter_widget") !== false) {
-                                    $check = true;
+                                    $check = $key;
                                     break;
                                 }
                             }
