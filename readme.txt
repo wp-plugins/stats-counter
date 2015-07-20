@@ -4,8 +4,6 @@ Version: 1.2.2
 Donate link: http://www.wpadm.com/donate
 URI: http://www.wpadm.com/stats-counter
 Tags: Stats, Stats, Stat, Counter, analytics, bbpress, analytic, hidden, hidden counter, visitor, visitors, hit, buddypress, hits, count, widget, admin, image, images, Post, plugin, posts, sidebar, google, page, comments, shortcode, twitter, track, tracking, geo, geotracking, geotargeting, geolocation, maxmind, online users, online, analyze, pageviews, reports, spider, statistics, page views, design counter, users, unique visitors, unique, realtime, views, web, page, webpage views, web page views, counters, statscounter, stats counter, statistic, wassup, google analytics
-
-
 Requires at least: 4.0.0
 Tested up to: 4.2.2
 Stable tag: trunk
@@ -120,43 +118,43 @@ Analytics counter have 3 display types. Easiest is visible (not hidden) analytic
 
 In the following lines you will see a comparison of Stats Counter vs Google Analytics.
 
-* Google Analytics Support 												<b>Standard Free</b>
+* Google Analytics Support 												**Standard Free**
 * Google Analytics 24/7 Dedicated Support Team 							
 * Google Analytics Account Management 										
 * Google Analytics Implementation Specialist 								
 * Google Analytics Training from Google experts 							
 * Google Analytics Self-Service Support - Help Centre, User Forum 			
 * Google Analytics Optional Certified Partner Support 						
-* Google Analytics Data Processing & Limits 								<b>Standard</b>
-* Google Analytics Hits processed per month 								<b>10 Million</b>
-* Google Analytics Rows of data available in reports 						<b>50,000</b>
+* Google Analytics Data Processing & Limits 								**Standard**
+* Google Analytics Hits processed per month 								**10 Million**
+* Google Analytics Rows of data available in reports 						**50,000**
 * Google Analytics Unsampled Reporting 									
-* Google Analytics Data Freshness 										more then 24 Hours
-* Google Analytics Advertising & Multi-Channel 							Standard
+* Google Analytics Data Freshness 										**more then 24 Hours**
+* Google Analytics Advertising & Multi-Channel 							**Standard**
 * Google Analytics Attribution Modelling 									
 * Google Analytics Campaign Measurement 									
 * Google Analytics AdWords Integration 									
 * Google Analytics Multi-Channel Reporting 								
-* Google Analytics Analysis Tools 										Standard
-* Google Analytics Custom Variables 										5
+* Google Analytics Analysis Tools 										**Standard**
+* Google Analytics Custom Variables 										**5**
 * Google Analytics Advanced Segmentation 									
 * Google Analytics Custom Reporting 										
 * Google Analytics Intelligence 									
 * Google Analytics Flow Visualisation 										
 * Google Analytics Real Time Data 											
-* Google Analytics Social, Mobile & Video 								Standard
+* Google Analytics Social, Mobile & Video 								**Standard**
 * Google Analytics Social Referral and Conversion Reporting 				
 * Google Analytics Mobile Device and App Tracking 							
 * Google Analytics Video Performance Measurement 							
-* Google Analytics Customisation & Integrations 							Standard
+* Google Analytics Customisation & Integrations 							**Standard**
 * Google Analytics Data Export and Tracking API 							
 * Google Analytics Custom Reports 											
-* Google Analytics Sharing & Workflow 									Standard
+* Google Analytics Sharing & Workflow 									**Standard**
 * Google Analytics Intuitive UI, Rapid Set Up 								
 * Google Analytics Dashboards, Custom Reports, Advanced Segments 			
 * Google Analytics Export and Email report functionality 					
-* Google Analytics Service Level Agreements & Guarantees 					Standard
-* Google Analytics Freshness 												more then 24 Hours
+* Google Analytics Service Level Agreements & Guarantees 					**Standard**
+* Google Analytics Freshness 												**more then 24 Hours**
 * Google Analytics Collection 												
 * Google Analytics Reporting 												
 * Google Analytics Service Level Guarantees 								
