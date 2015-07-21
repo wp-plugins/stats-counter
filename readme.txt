@@ -35,6 +35,9 @@ The Analytics Stats Counter Statistics track:
 * Password protected Counter
 * Hidden Counter
 
+* Stats widget (tracker analytics widget)
+
+
 Customize your counter design for Analytics Stats Counter Statistics or select flexible colors for the counter of your web page.
 
 
