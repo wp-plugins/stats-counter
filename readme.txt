@@ -37,6 +37,8 @@ The Analytics Stats Counter Statistics track:
 
 * Stats widget (tracker analytics widget)
 
+* change of location of the stats counter
+
 
 Customize your counter design for Analytics Stats Counter Statistics or select flexible colors for the counter of your web page.
 
