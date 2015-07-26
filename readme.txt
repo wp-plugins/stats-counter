@@ -39,6 +39,7 @@ The Analytics Stats Counter Statistics track:
 
 * change of location of the stats counter
 * detailed analytics & statistics
+* Online user monitor (coming soon)
 
 
 Customize your counter design for Analytics Stats Counter Statistics or select flexible colors for the counter of your web page.
@@ -62,8 +63,6 @@ If you need help with the plugin or you want to report a bug please refer to htt
 
 
 
-
-* Online user monitor (coming soon)
 
 We love to Analyze and we like a Google Analytics, that's why we are presenting you our Analytics Stats Counter Statistics Plugin & widget.
 
