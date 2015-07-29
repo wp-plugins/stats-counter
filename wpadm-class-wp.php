@@ -788,7 +788,7 @@
                                 if (!isset($id_widget[1])) {
                                     $id_widget[1] = 1;
                                 }
-                                if (!in_array("wpadm_counter_widget-" . $id_widget[1], $sidebars_widgets[$sidebar])) {
+                                if (isset($sidebars_widgets[$sidebar]) && is_array($sidebars_widgets[$sidebar]) && !in_array("wpadm_counter_widget-" . $id_widget[1], $sidebars_widgets[$sidebar])) {
                                     $sidebars_widgets[$sidebar] = array_merge($sidebars_widgets[$sidebar] , array( "wpadm_counter_widget-" . $id_widget[1] ));
                                     $w = self::getDataFlag();
                                     $w['widget'] = $sidebar;
