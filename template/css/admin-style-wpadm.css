@@ -6,7 +6,7 @@
     box-shadow: 0 0 10px rgba(177, 217, 222, 0.5);
     border-radius : 5px;
     position: relative;
-    
+
 }
 .form-position .position-title {
     font-size: 24px;
@@ -16,7 +16,7 @@
     background: #ddd; 
     border-radius : 5px 5px 0px 0px; 
 }
- .position-sidebar {
+.position-sidebar {
     font-size:15px;
     margin-bottom: 5px;
 }
@@ -130,7 +130,7 @@
     font-size: 16px;
     padding: 10px 5px;
     margin-top:10px;
-    
+
 }
 .wpadm-info-title p a{
     color:#0096d6;
@@ -323,8 +323,8 @@ h3.plugins-title {
     text-align: center;
 }
 .info-path td {
-     font-size: 11px;
-     padding:0px;
+    font-size: 11px;
+    padding:0px;
 }
 .table tr:last td {
 
@@ -731,6 +731,9 @@ height: 20px;
 /*
 vertical tablet computer
 */
+.info-details-form {
+    margin-top:10px;
+}
 }
 @media only screen and (max-width: 524px) {
 /*phone*/
