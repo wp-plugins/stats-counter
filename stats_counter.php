@@ -3,7 +3,7 @@
 Plugin Name: Stats Counter
 Plugin URI: http://www.wpadm.com
 Description: Visitors statistics by Stats Counter!
-Version: 1.2.2
+Version: 1.2.2.1
 Author: WPAdm.com
 Author URI: http://www.wpadm.com
 */
