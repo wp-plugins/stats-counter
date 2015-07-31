@@ -733,8 +733,15 @@ vertical tablet computer
 */
 .info-details-form {
     margin-top:10px;
+    padding:5px;
+    font-size:14px;
 }
 }
 @media only screen and (max-width: 524px) {
 /*phone*/
+.info-details-form {
+    margin-top:10px;
+    padding:3px;
+    font-size:12px;
+}
 }
