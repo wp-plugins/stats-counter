@@ -732,16 +732,24 @@ height: 20px;
 vertical tablet computer
 */
 .info-details-form {
-    margin-top:10px;
-    padding:5px;
+    margin-top:5px;
     font-size:14px;
+}
+.info-details-form .button-submit {
+    width:50px;
+    font-size:12px;
 }
 }
 @media only screen and (max-width: 524px) {
 /*phone*/
 .info-details-form {
-    margin-top:10px;
-    padding:3px;
+    margin-top:3px;
     font-size:12px;
 }
+.info-details-form .button-submit {
+    width:40px;
+    font-size:10px;
+    
+}
+
 }
