@@ -18,8 +18,7 @@ Analytics Stats Counter Statistics Plugin analyse visitors statistics on your we
 
 The Analytics Stats Counter Statistics track:
 
-* Unique User Analytics: analyze your unique users
-
+* <strong>Unique User Analytics: analyze your unique users</strong>
 * Statistics by city
 * Statistics by country
 * Statistics screen resolution
@@ -32,10 +31,8 @@ The Analytics Stats Counter Statistics track:
 * IPv4
 * IPv6
 * design counter (analytics counter design customization)
-
-* Password protected Counter
-* Hidden Counter
-
+* <strong>Password protected Counter</strong>
+* <strong>Hidden Counter</strong>
 * Stats widget (tracker analytics widget)
 
 * change of location of the stats counter
