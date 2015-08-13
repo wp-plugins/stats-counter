@@ -733,7 +733,9 @@ vertical tablet computer
 */
 .info-details-form {
     margin-top:5px;
+    width:700px;
     font-size:14px;
+    text-align:center;
 }
 .info-details-form .button-submit {
     width:50px;
@@ -745,6 +747,8 @@ vertical tablet computer
 .info-details-form {
     margin-top:3px;
     font-size:12px;
+    text-align:center;
+    width:500px;
 }
 .info-details-form .button-submit {
     width:40px;
