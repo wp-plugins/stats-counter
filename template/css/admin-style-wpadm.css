@@ -736,11 +736,11 @@ vertical tablet computer
     width:700px;
     font-size:14px;
     text-align:center;
+    height:300px;
 }
 .info-details-form .button-submit {
-    width:50px;
+    width:auto;
     font-size:12px;
-    margin:4px 7px;
 }
 }
 @media only screen and (max-width: 524px) {
@@ -750,13 +750,11 @@ vertical tablet computer
     font-size:12px;
     text-align:center;
     width:500px;
+    height:200px;
 }
 .info-details-form .button-submit {
-    width:40px;
+    width:auto;
     font-size:10px;
-    padding:3px;
-    margin:3px 5px;
-    
 }
 
 }
