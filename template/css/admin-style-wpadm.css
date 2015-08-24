@@ -109,6 +109,13 @@
     text-decoration: none;
     white-space: nowrap;
 }
+.button-wpadm-cancel {
+    background: none repeat scroll 0 0 #ffba00;
+    border-color: #cdcdcd;
+    box-shadow: 0 1px 0 #ffba00 inset, 0 1px 0 rgba(0, 0, 0, 0.08);
+    color: #fff;
+}
+
 .wpadm-info {
     font-size: 15px;
     width: 30%;
@@ -288,6 +295,10 @@ h3.plugins-title {
     border-color:#737373 ;
     background-color: #ff706c;
 }
+.button-wpadm-cancel:hover {
+    border-color:#747474;
+    background-color: #d89e00;
+}  
 .wpadm-red {
     background: none repeat scroll 0 0 #f21111;
     border-color: #c7c6ce;

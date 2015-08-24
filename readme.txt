@@ -1,6 +1,6 @@
 === Analytics Stats Counter Statistics ===
 Plugin Name: Analytics: Stats Counter Statistics
-Version: 1.2.2.1
+Version: 1.2.2.3
 Donate link: http://www.wpadm.com/donate
 URI: http://www.wpadm.com/stats-counter
 Tags: Stats, Stats, Stat, Counter, analytics, bbpress, analytic, hidden, hidden counter, visitor, visitors, hit, buddypress, hits, count, widget, admin, image, images, Post, plugin, posts, sidebar, google, page, comments, shortcode, twitter, track, tracking, geo, geotracking, geotargeting, geolocation, maxmind, online users, online, analyze, pageviews, reports, spider, statistics, page views, design counter, users, unique visitors, unique, realtime, views, web, page, webpage views, web page views, counters, statscounter, stats counter, statistic, wassup, google analytics

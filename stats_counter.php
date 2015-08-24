@@ -3,7 +3,7 @@
 Plugin Name: Stats Counter
 Plugin URI: http://www.wpadm.com
 Description: Visitors statistics by Stats Counter!
-Version: 1.2.2.1
+Version: 1.2.2.3
 Author: WPAdm.com
 Author URI: http://www.wpadm.com
 */
@@ -30,7 +30,10 @@ register_deactivation_hook( __FILE__, array('wpadm_wp_stat','on_deactivate'));
 add_action('widgets_init', array('wpadm_wp_stat', 'widgets_initial') );
 add_action('init', array('wpadm_wp_stat', 'initWidget'));
 add_action( 'wp_footer', array("wpadm_wp_stat", "addFooter") );
+add_action('admin_notices', array("wpadm_wp_stat", 'install_template_notice') );
+
 add_filter('plugin_action_links', array('wpadm_wp_stat', 'manage_link'), 10, 2);
+
 
 if (!function_exists('wpadm_debug')) {
     function wpadm_debug($msg)

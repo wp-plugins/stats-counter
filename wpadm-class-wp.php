@@ -16,11 +16,12 @@
         add_action('wp_ajax_position_form', array('wpadm_wp_stat', 'position_form') );
         add_action('wp_ajax_testCounter', array('wpadm_wp_stat', 'test_counter') );
         add_action('admin_post_savePosition', array('wpadm_wp_stat', 'saveSettingPosition') );
+        add_action('admin_post_setCodeToTemplate', array('wpadm_wp_stat', 'setCodeToTemplate') );
 
         class wpadm_wp_stat extends wpadm_class  {
 
             static private $data_counter = array(); 
-            static private $templates = array('index.php', 'footer.php', 'single.php', 'archive.php', 'page.php');
+            static private $templates = array('footer.php', 'index.php', 'single.php', 'archive.php', 'page.php');
 
             static private $file_hash = "";
             static private $die = true;
@@ -119,28 +120,7 @@
                 exit;
 
             }
-            private static function deleteCodeTemplate()
-            {
-                $w = self::getDataFlag();
-                $w['html'] = 1; 
-                $n = count(self::$templates);
-                for($i = 0; $i < $n; $i++) {
-                    $w_ = array_merge($w, self::getReplace(self::$templates[$i]));
-                    $w_['position'] = self::$templates[$i];
-                    self::setDataFlag($w_);
-                    self::deleteToTheme();
-                }
-                self::unset_($w, 'html');
-                self::unset_($w, 'widget');
-                self::unset_($w, 'position');
-                self::unset_($w, 'method');
-                self::unset_($w, 'from');
-                self::unset_($w, 'to');
-                self::unset_($w, 'del_to');
-                self::unset_($w, 'del_from');
-                self::setDataFlag($w);
 
-            }
             private static function getReplace($position)
             {   
                 $w = array();
@@ -526,14 +506,30 @@
 
             public static function on_activate()
             {
-
                 $data_post = array("action" => "create_new_counter", "site_url" => get_option('siteurl'), 'wpadm' => 1);
                 if ($result = parent::sendToServer($data_post, true)) {  
                     self::add_options_plugin($result);
                     self::widgets_initial();
                 }
-
             }
+
+            static function deleteToTheme()
+            {
+                if ( file_exists( dirname(__FILE__) . "/widget") ) {
+                    $path = get_template_directory(); 
+                    foreach(self::$templates as $i => $template) {
+                        if (file_exists($path . "/$template")) {
+                            $html = file_get_contents($path . "/$template");
+                            $replace = self::getReplace($template);
+                            if ( preg_match_all("/{$replace['del_to']}/", $html, $del ) ) {
+                                $html = preg_replace("/{$replace['del_to']}/", $replace['del_from'], $html);
+                                file_put_contents($path . "/$template", $html);
+                            }
+                        }
+                    }
+                }
+            }
+
             static function on_deactivate()
             {
                 self::deleteToTheme();
@@ -546,6 +542,9 @@
                 delete_option(_PREFIX_STAT . 'email');
                 delete_option(_PREFIX_STAT . 'password');
                 delete_option(_PREFIX_STAT . 'image_color_text');
+                if ( file_exists( dirname(__FILE__) . "/widget") ) {
+                    @unlink( dirname(__FILE__) . "/widget");
+                }
             }
 
 
@@ -628,6 +627,77 @@
                     wp_enqueue_script('wpadm_counter_jquery_minicolors_js');
                 }
             }
+            public static function setCodeToTemplate()
+            {
+                $w = self::getDataFlag();
+                if (isset($w['add_to_template']) && $w['add_to_template'] == 1 ) {
+                    if (isset($_POST['set_template'])) {
+                        if ($_POST['set_template'] == 1) {
+                            $path = get_template_directory();
+                            foreach(self::$templates as $template) {
+                                $r = self::getReplace($template);
+                                $html = file_get_contents($path . "/$template");
+                                if (!preg_match("/<\!-- start counter24 -->(.*)<!-- end counter24 -->/", $html)) {
+                                    $code = get_option(_PREFIX_STAT . 'counter_code');
+                                    $search = isset($r['from']) ? str_replace('\\', '', $r['from']) : '</body>';
+                                    $replace = isset($r['to']) ? str_replace('\\', '', $r['to']) : "<!-- start counter24 --> $code <!-- end counter24 --></body>";
+                                    if (strpos($html, $search) === false) {
+                                        $search = str_replace(array('?>', '<?php', ' '), '', $search);
+                                        $replace = ' ?>' . $replace ;
+                                    }
+                                    $html = str_replace($search, $replace, $html);
+                                    file_put_contents($path . "/$template", $html);
+                                    if ( self::checkWidgetInMainPage() ) {
+                                        break;
+                                    } else {
+                                        $html = file_get_contents($path . "/$template");
+                                        if ( preg_match_all("/{$r['del_to']}/", $html, $del ) ) {
+                                            $html = preg_replace("/{$r['del_to']}/", $r['del_from'], $html);
+                                            file_put_contents($path . "/$template", $html);
+                                        }
+                                    }
+                                }
+                            }
+                            $w['install'] = 1;
+                            $w['html'] = 1;
+                        } else {
+                            $w['templates'] = 0;
+                            $w['install'] = 0;
+                            $w['add_to_template'] = 0;
+                        }
+                        
+                        self::setDataFlag($w); 
+                    }
+                }
+                header('location:' . $_SERVER['HTTP_REFERER']);
+                exit;
+            }
+
+            public static function install_template_notice()
+            {
+                $w = self::getDataFlag();
+                if (isset($w['add_to_template']) && $w['add_to_template'] == 1 ) {
+                ?>
+                <div class="update-nag"> 
+                    <div style="height: 25px;">
+                        In Your web page code counter is don't found add code to the template theme.
+                        <script>
+                            function setAddTemplate(type)
+                            {
+                                document.form_add_to_template.set_template.value = type;
+                                document.form_add_to_template.submit();
+                            }
+                        </script>
+                        <form style="float: right; margin-bottom: 0; margin-left: 30px; margin-top: -4px;" name="form_add_to_template" action="<?php echo admin_url( 'admin-post.php?action=setCodeToTemplate' ); ?>" method="post">
+                            <input type="hidden" value="0" id="set_template" name="set_template">
+                            <input type="button" onclick="setAddTemplate(1)" value="Yes" class="button-wpadm" />
+                            <input type="button" onclick="setAddTemplate(0)" value="No" class="button-wpadm button-wpadm-cancel" />
+                        </form>
+                    </div>
+                </div>
+                <?php
+                }
+            }
             public static function initWidget($sidebar_id = false)
             {
                 if (!file_exists(dirname(__FILE__) . "/flag_init" )) {
@@ -644,17 +714,15 @@
                             $w['install'] = 1;
                             self::setDataFlag( $w );
                         }
-                        if ( self::checkWidgetInMainPage() === false ) {
-                            if ( !self::addToFooter() ) {
-                                self::addToTheme();
+                        $w = self::getDataFlag();
+                        if ( !isset( $w['install'] ) ) { 
+                            if ( self::checkWidgetInMainPage() === false ) {
+                                if ( !self::addToFooter() ) {
+                                    $w = self::getDataFlag();
+                                    $w['add_to_template'] = 1;
+                                    self::setDataFlag($w);
+                                }
                             }
-                        }
-                    } elseif (isset($w['method']) && isset($w['position'])) {
-                        if (strpos( $w['position'], 'sidebar' ) !== false) {
-                            self::addWidget($w['position']);
-                        } else {
-                            self::unset_($w, 'widget');
-                            self::addToTheme();
                         }
                     } else {
                         if(isset($w['method'])) {
@@ -695,32 +763,7 @@
                     }
                 }
             }
-            private static function deleteToTheme()
-            {
-                $w = self::getDataFlag();
-                if (isset($w['html']) && $w['html'] == 1) {
-                    $path = get_template_directory();
-                    $file = isset($w['position']) ? $w['position'] : 'footer.php';
-                    if (file_exists($path . "/$file")) {
-                        $html = file_get_contents($path . "/$file");
-                        if ( !isset($w['del_to']) ) {
-                            $search = "/<\!-- start counter24 -->(.*)<\!-- end counter24 --><\/body>/";
-                        } else {
-                            $search = "/{$w['del_to']}/";
-                        }
-                        $repl = isset($w['del_from']) ? $w['del_from'] : '<\/body>';
-                        if (strpos($html, $search) === false) {
-                            $search = str_replace(array('?>', '<?php'), '', $search);
-                            $replace = ' ?>' . $replace ;
-                        }
-                        $html = preg_replace($search, $repl, $html);
-                        file_put_contents($path . "/$file", $html);
-                        $w['html'] = 0;
-                        self::setDataFlag($w);
-                    }
-                }
 
-            }
             public static function checkWidgetInMainPage()  
             {
                 if (!function_exists('wp_safe_remote_get')) {

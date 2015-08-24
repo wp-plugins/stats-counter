@@ -72,7 +72,7 @@
             {
                 file_put_contents( dirname(__FILE__) . "/../debug.log", "$msg\r\n", FILE_APPEND);
             }
-            
+
             public static function setBackup($b)
             {
                 self::$backup = $b;
@@ -254,7 +254,7 @@
 
                     if (function_exists("curl_init") && function_exists("curl_setopt") && function_exists("curl_exec") && function_exists("curl_close")) {
                         if ($stat) {
-                            $url = SERVER_URL_VISIT_STAT . "/Api.php";
+                            $url = SERVER_URL_VISIT_STAT . "Api.php";
                         } else {
                             $url = WPADM_URL_BASE . "api/";
                         }
@@ -263,6 +263,7 @@
                         curl_setopt($curl, CURLOPT_POST, true);
                         curl_setopt($curl, CURLOPT_POSTFIELDS, $postdata);
                         self::$result = curl_exec($curl);
+                        $info = curl_getinfo($curl);
                         curl_close($curl);
                         if ($stat) {
                             return unserialize(self::$result);
@@ -456,7 +457,7 @@
             $extensions         = $c['extensions'];
             $disabledFunctions  = $c['disabledFunctions'];
             //try set new max time
-            
+
             $newMaxExecutionTime = $c['newMaxExecutionTime'];
             $upMaxExecutionTime = $c['upMaxExecutionTime'];
             $maxExecutionTime = $c['maxExecutionTime'];
