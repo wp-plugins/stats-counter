@@ -35,7 +35,7 @@ The Analytics Stats Counter Statistics track:
 * <strong>Hidden Counter</strong>
 * Stats widget (tracker analytics widget)
 
-* change of location of the stats counter
+* change of location of the stats counter (place holder)
 * detailed analytics & statistics
 * Online user monitor (coming soon)
 
@@ -171,6 +171,16 @@ In the following lines you will see a comparison of Stats Counter vs Google Anal
 
 Counter takes into account all of the city where visitors come to your web page. Table TOP10 show you the top 9 cities where you get the highest number of visitors and the "other" at number 10. <br />
 The "other" - all the cities, we are counting, that are not included in the TOP10 list. This is "summary" of all cities, that are not apparent from TOP10 list. In most cases these are small towns and villages.
+
+= Hi. My stats and analytics don't work anymore. No stats and analytics since <i>date</i>. Why? What I must doing? =
+
+Don't panic! <br />
+Check if your stats and analytics plugin is enabled.<br />
+Check your theme.<br />
+If the counter was enabled, than counter-code was integrated in your theme.<br />
+Try to deactivate and activate your stats and analytics plugin again.<br />
+Try to change the counter place on your website to a new place and than change it back to their old place.
+If those not help - write to our support on http://www.wpadm.com/support/.<br />
 
 
 
