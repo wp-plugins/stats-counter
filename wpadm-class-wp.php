@@ -826,7 +826,7 @@
                                 if ($id == 0) {
                                     $id = 2;
                                 }
-                                $widget_ = $sidebars_widgets[$sidebar][c-1];
+                                $widget_ = $sidebars_widgets[$sidebar][$id - 1];
                                 $id_widget = explode("-", $widget_ );
                                 if (!isset($id_widget[1])) {
                                     $id_widget[1] = 1;
