@@ -752,6 +752,7 @@ vertical tablet computer
 .info-details-form .button-submit {
     width:auto;
     font-size:12px;
+    margin-top:10px;
 }
 }
 @media only screen and (max-width: 524px) {
@@ -766,6 +767,7 @@ vertical tablet computer
 .info-details-form .button-submit {
     width:auto;
     font-size:10px;
+    margin-top:5px;
 }
 
 }
