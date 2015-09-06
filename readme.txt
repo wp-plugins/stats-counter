@@ -38,6 +38,8 @@ The Analytics Stats Counter Statistics track:
 * change of location of the stats counter (place holder)
 * detailed analytics & statistics
 * Online user monitor (coming soon)
+* Manage multiple domains only with one account at http://www.wpadm.com/
+
 
 
 Customize your counter design for Analytics Stats Counter Statistics or select flexible colors for the counter of your web page.
