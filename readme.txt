@@ -64,7 +64,7 @@ If you need help with the plugin or you want to report a bug please refer to htt
 
 
 
-We love to Analyze and we like a Google Analytics, that's why we are presenting you our Analytics Stats Counter Statistics Plugin & widget.
+We love to Analyze and we like a Google Analytics, that's why we are presenting you our better Analytics Stats Counter Statistics Plugin & widget.
 
 Usefull additional functions can be found at www.wpadm.com in the User profile.
 Analytics Stats Counter Statistics is a new plugin, so we tryed have to provide a bug-free plugin/widget. We are maintain this project.
@@ -80,7 +80,7 @@ The following designs and products, simply register and select the range of Anal
 = Text Analytics Counter (Stats Tracker like a Google Analytics) =
 The Analytics Counters can look like this. When text-counter, the count is output as text without formatting. You can format the text using HTML tags or CSS. 
 The following settings are possible: 
-1. Analyze Hits / clicks analytics, visitors yesterday, total visitors, number of users who are now online and Total visitors (see our samples at www.wpadm.com) ;
+1. Analyze Hits / clicks analytics, visitors yesterday, total visitors, number of users who are now online and Total visitors (see our samples at www.wpadm.com);
 2. Analyze Hits / Overall analytics clicks;
 3. Total Analytic & Visitors of your website;
 
@@ -93,10 +93,10 @@ The following designs and products, simply sign up and select the user area to t
 When statistics counter only one graph is displayed. This counter is recommended to create a detailed access statistics for the complete site. The "Counter-source code" installed easily on any of your pages. The detailed statistics you can find in the user area or by clicking on the displayed image.
 
 = Functions of Counter statistics for Analytics of your website (all like a Google Analytics) =
-At our website www.wpadm.com you will get a detailed, clear statistics with the following features: 
-Top 10 Referrals / Origin of visitors by URLs -> Total visitors per day. 
-When visitors display you can now find out via IP localization, from which region / city visitors come. 
-Top 10 search engines and keywords -> Total visitors per day are displayed on the statistics page. The initial count can now be set individually. It is also possible to count for "Hits total" and "total visitors" to change at start of your Counting. 
+At our website www.wpadm.com you will get a detailed, clear statistics with the following features:<br />
+Top 10 Referrals / Origin of visitors by URLs -> Total visitors per day.<br />
+When visitors display you can now find out via IP localization, from which region / city visitors come.<br />
+Top 10 search engines and keywords -> Total visitors per day are displayed on the statistics page. The initial count can now be set individually. It is also possible to count for "Hits total" and "total visitors" to change at start of your Counting.<br />
 
 * Google alike Analytics of Hits total;
 * Google alike Analytics of Visitors total;
