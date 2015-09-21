@@ -736,6 +736,14 @@ margin-top:40px;
 font-size:12px;
 height: 20px;
 }
+.info-details-form {
+    margin-top:5px;
+    width:700px;
+    font-size:14px;
+    text-align:center;
+    height:300px;
+    line-height: 17px;
+}
 
 }
 @media only screen and (max-width: 758px) {
@@ -748,6 +756,7 @@ vertical tablet computer
     font-size:14px;
     text-align:center;
     height:300px;
+    line-height: 17px;
 }
 .info-details-form .button-submit {
     width:auto;
@@ -764,12 +773,14 @@ vertical tablet computer
     text-align:center;
     width:500px;
     height:200px;
+    line-height: 14px;
 }
 .info-details-form .button-submit {
     width:auto;
     font-size:10px;
     margin-top:5px;
     margin-bottom:10px;
+    
 }
 
 }
